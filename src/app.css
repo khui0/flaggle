@@ -109,6 +109,13 @@
   src: url("/fonts/big_noodle_titling_oblique.ttf");
 }
 
+@font-face {
+  font-family: "Icons";
+  font-style: normal;
+  src: url("/fonts/icons.ttf");
+}
+
+
 @utility font-title {
   @apply font-[BigNoodleTitling] text-4xl font-normal italic;
 }

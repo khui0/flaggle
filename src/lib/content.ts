@@ -7,3 +7,7 @@ export interface Flag {
 }
 
 export const flags: Flag[] = data;
+
+export function getRandomFlag(): Flag {
+  return flags[Math.floor(Math.random() * flags.length)];
+}

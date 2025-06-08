@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { flags, type Flag } from "$lib/content";
+  import { flags, getRandomFlag, type Flag } from "$lib/content";
   import { onMount } from "svelte";
 
   const ROWS = 10;
@@ -25,10 +25,6 @@
         queue[i][j] = getRandomFlag();
       }
     }
-  }
-
-  function getRandomFlag(): Flag {
-    return flags[Math.floor(Math.random() * flags.length)];
   }
 
   function calculateSizes() {

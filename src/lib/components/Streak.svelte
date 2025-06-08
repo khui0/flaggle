@@ -1,67 +1,64 @@
 <script lang="ts">
-  import { Howl } from "howler";
   import sound from "$lib/assets/kill.mp3";
+  import { Howl } from "howler";
 
-  export let value: number;
-  export let postfix: string = "🔥";
+  let {
+    value = $bindable(0),
+  }: {
+    value: number;
+  } = $props();
 
   let ready: boolean = false;
-  let show: boolean = false;
+  let show: boolean = $state(false);
 
   const audio = new Howl({
     src: sound,
   });
 
-  $: value,
-    (() => {
-      if (!ready) {
-        ready = true;
-        return;
-      }
-      if (
-        value === 10 ||
-        value === 50 ||
-        value === 100 ||
-        value === 250 ||
-        value === 500 ||
-        value === 1000
-      ) {
-        show = true;
-        setTimeout(() => {
-          show = false;
-        }, 2000);
-        audio.stop();
-        audio.play();
-      }
-    })();
+  const colors = new Map();
+  colors.set(10, "red");
+  colors.set(50, "purple");
+  colors.set(100, "blue");
+  colors.set(250, "green");
+  colors.set(500, "yellow");
+  colors.set(1000, "rainbow");
 
-  $: effect = (() => {
-    if (value >= 1000) {
-      return "rainbow";
-    } else if (value >= 500) {
-      return "yellow";
-    } else if (value >= 250) {
-      return "green";
-    } else if (value >= 100) {
-      return "blue";
-    } else if (value >= 50) {
-      return "purple";
-    } else if (value >= 10) {
-      return "red";
+  $effect(() => {
+    if (!ready) {
+      ready = true;
+      return;
     }
-  })();
+    if (colors.has(value)) {
+      show = true;
+      setTimeout(() => {
+        show = false;
+      }, 2000);
+      audio.stop();
+      audio.play();
+    }
+  });
+
+  let colorClassName: string = $derived(
+    (() => {
+      let result = "";
+      colors.entries().forEach(([k, v]: [number, string]) => {
+        if (value >= k) result = v;
+      });
+      return result;
+    })(),
+  );
 </script>
 
-<p class="z-10 text-3xl whitespace-nowrap">
-  <span class="font-[BigNoodleTitling] italic {effect}">{value.toLocaleString()} </span>
-  <span class="glow">{postfix}</span>
+<p class="z-10 flex gap-[0.25em] text-3xl whitespace-nowrap {colorClassName}">
+  <span class="font-title">{value.toLocaleString()} </span>
+  <span class="font-[Icons]">A</span>
 </p>
 
 {#if show}
   <div class="pointer-events-none fixed inset-0 z-50 flex items-center justify-center">
-    <p class="big text-8xl whitespace-nowrap">
-      <span class="font-[BigNoodleTitling] italic {effect}">{value.toLocaleString()} </span>
-      <span class="glow">{postfix}</span>
+    <p class="big flex gap-[0.25em] text-8xl whitespace-nowrap {colorClassName}">
+      <span class="font-title">{value.toLocaleString()} </span>
+      <span class="font-[Icons]">A</span>
     </p>
   </div>
 {/if}
@@ -117,10 +114,6 @@
     100% {
       background-position: 400%;
     }
-  }
-
-  .glow {
-    text-shadow: 0 0 0.625em red;
   }
 
   .big {
