@@ -1,5 +1,5 @@
 <script lang="ts">
-  import sound from "$lib/assets/kill.mp3";
+  import sound from "$lib/assets/sounds/hit.mp3";
   import { Howl } from "howler";
 
   let {
