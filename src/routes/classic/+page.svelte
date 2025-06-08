@@ -1,6 +1,6 @@
 <script lang="ts">
   import { streak } from "$lib/stats";
-  import Streak from "$lib/components/Streak.svelte";
+  import Streak from "$lib/components/streak.svelte";
 
   import GameInput from "$lib/components/GameInput.svelte";
   import GameFeed from "$lib/components/GameFeed.svelte";

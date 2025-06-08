@@ -3,7 +3,7 @@
   import { Howl } from "howler";
 
   let {
-    value = $bindable(0),
+    value = 0,
   }: {
     value: number;
   } = $props();
