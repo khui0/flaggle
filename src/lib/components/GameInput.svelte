@@ -1,6 +1,6 @@
 <script lang="ts">
   import Fuse from "fuse.js";
-  import data from "$lib/data.json";
+  import data from "$lib/assets/flags/data.json";
   import { createEventDispatcher, onMount } from "svelte";
   import { settings } from "$lib/settings";
 
@@ -125,13 +125,13 @@
 
 <label
   bind:this={container}
-  class="input relative flex items-center gap-1 bg-base-200 rounded-btn pr-2"
+  class="input bg-base-200 rounded-field relative flex items-center gap-1 pr-2"
 >
   <input
     bind:value={query}
     bind:this={input}
     type="text"
-    class="flex-1 min-w-0 bg-transparent font-[BigNoodleTitling] italic text-2xl"
+    class="min-w-0 flex-1 bg-transparent font-[BigNoodleTitling] text-2xl italic"
     placeholder="Guess a flag!"
     on:keydown={(e) => {
       if (e.key === "Enter") {
@@ -160,11 +160,11 @@
     <div
       in:fly={{ duration: 100, y: -10 }}
       out:fly={{ duration: 100, y: -10 }}
-      class="absolute z-10 top-[calc(100%+1rem)] left-0 w-full bg-base-200 rounded-btn flex flex-col shadow-xl overflow-hidden"
+      class="bg-base-200 rounded-field absolute top-[calc(100%+1rem)] left-0 z-10 flex w-full flex-col overflow-hidden shadow-xl"
     >
       {#each results as country, i}
         <button
-          class="font-[BigNoodleTitling] italic text-2xl text-start flex justify-between items-center px-3 {i ===
+          class="flex items-center justify-between px-3 text-start font-[BigNoodleTitling] text-2xl italic {i ===
           selected
             ? 'bg-primary text-primary-content'
             : 'hover:bg-base-100/50 active:bg-base-100/50'} {touch ? 'py-3' : 'py-1'}"
@@ -172,9 +172,9 @@
             submitGuess(country);
           }}
         >
-          <span class="inline-flex gap-2 items-center">
+          <span class="inline-flex items-center gap-2">
             {#if !touch}
-              <span class="opacity-50 w-3 text-center">{(i + 1) % 10}</span>
+              <span class="w-3 text-center opacity-50">{(i + 1) % 10}</span>
             {/if}
             {country.name}
           </span>

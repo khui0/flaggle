@@ -1,8 +1,6 @@
 <script lang="ts">
   import { settings } from "$lib/settings";
 
-  import toast from "svelte-french-toast";
-
   import SettingsField from "./SettingsField.svelte";
   import Confirm from "$lib/components/Confirm.svelte";
 
@@ -24,8 +22,8 @@
   const version: string = import.meta.env.PACKAGE_VERSION;
 </script>
 
-<div class="flex justify-between items-center gap-4 flex-wrap">
-  <h1 class="font-[BigNoodleTitling] italic text-4xl">Settings</h1>
+<div class="flex flex-wrap items-center justify-between gap-4">
+  <h1 class="font-[BigNoodleTitling] text-4xl italic">Settings</h1>
   <a href="https://github.com/khui0/flaggle" title="GitHub" class="self-center text-2xl">
     <BiGithub></BiGithub>
   </a>

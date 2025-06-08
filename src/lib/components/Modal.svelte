@@ -14,12 +14,12 @@
 <dialog class="modal backdrop:bg-transparent" bind:this={modal} on:close>
   <div class="modal-box p-4">
     <form method="dialog">
-      <button class="btn btn-square btn-ghost text-xl absolute right-3 top-3" aria-label="Close">
+      <button class="btn btn-square btn-ghost absolute top-3 right-3 text-xl" aria-label="Close">
         <LucideX></LucideX>
       </button>
     </form>
-    <div class="flex flex-col gap-2 mx-1" class:items-center={centered}>
-      <h1 class="font-[BigNoodleTitling] italic text-4xl self-start">{title}</h1>
+    <div class="mx-1 flex flex-col gap-2" class:items-center={centered}>
+      <h1 class="self-start font-[BigNoodleTitling] text-4xl italic">{title}</h1>
       <slot></slot>
     </div>
   </div>

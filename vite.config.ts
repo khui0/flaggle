@@ -1,23 +1,18 @@
-import { sveltekit } from "@sveltejs/kit/vite";
-import { defineConfig } from "vite";
 import { enhancedImages } from "@sveltejs/enhanced-img";
+import { sveltekit } from "@sveltejs/kit/vite";
+import tailwindcss from "@tailwindcss/vite";
 import Icons from "unplugin-icons/vite";
+import { defineConfig } from "vite";
 import version from "vite-plugin-package-version";
-import basicSsl from "@vitejs/plugin-basic-ssl";
 
 export default defineConfig({
   plugins: [
-    sveltekit(),
-    enhancedImages(),
     Icons({
       compiler: "svelte",
     }),
+    enhancedImages(),
+    tailwindcss(),
     version(),
-    basicSsl({
-      certDir: "~",
-    }),
+    sveltekit(),
   ],
-  server: {
-    proxy: {},
-  },
 });

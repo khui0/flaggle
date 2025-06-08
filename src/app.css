@@ -1,71 +1,98 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "daisyui";
+
+@plugin "daisyui/theme" {
+  name: "flaggle-light";
+  color-scheme: "light";
+  --color-base-100: #eeeeee;
+  --color-base-200: #fafafa;
+  --color-base-300: #d9d9d9;
+  --color-base-content: #2c2c2c;
+  --color-primary: #366aed;
+  --color-primary-content: oklch(100% 0 0);
+  --color-secondary: #366aed;
+  --color-secondary-content: oklch(100% 0 0);
+  --color-accent: #366aed;
+  --color-accent-content: oklch(100% 0 0);
+  --color-neutral: #366aed;
+  --color-neutral-content: oklch(100% 0 0);
+
+  --color-info: oklch(74% 0.16 232.661);
+  --color-info-content: oklch(29% 0.066 243.157);
+  --color-success: oklch(79% 0.209 151.711);
+  --color-success-content: oklch(26% 0.065 152.934);
+  --color-warning: oklch(85% 0.199 91.936);
+  --color-warning-content: oklch(28% 0.066 53.813);
+  --color-error: oklch(70% 0.191 22.216);
+  --color-error-content: oklch(25% 0.092 26.042);
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: "flaggle-dark";
+  color-scheme: "dark";
+  --color-base-100: #181818;
+  --color-base-200: #222222;
+  --color-base-300: #313131;
+  --color-base-content: oklch(100% 0 0);
+  --color-primary: #4578f8;
+  --color-primary-content: oklch(100% 0 0);
+  --color-secondary: #4578f8;
+  --color-secondary-content: oklch(100% 0 0);
+  --color-accent: #4578f8;
+  --color-accent-content: oklch(100% 0 0);
+  --color-neutral: #4578f8;
+  --color-neutral-content: oklch(100% 0 0);
+
+  --color-info: oklch(74% 0.16 232.661);
+  --color-info-content: oklch(29% 0.066 243.157);
+  --color-success: oklch(79% 0.209 151.711);
+  --color-success-content: oklch(26% 0.065 152.934);
+  --color-warning: oklch(85% 0.199 91.936);
+  --color-warning-content: oklch(28% 0.066 53.813);
+  --color-error: oklch(70% 0.191 22.216);
+  --color-error-content: oklch(25% 0.092 26.042);
+  --radius-selector: 0.5rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
 
 @layer base {
-  * {
-    @apply scrollbar-thin scrollbar-thumb-base-300 hover:scrollbar-thumb-primary scrollbar-track-transparent;
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    @apply border-base-content/10;
   }
 
-  *,
-  ::before,
-  ::after {
-    @apply border-base-300;
-    --rounded-box: 0.75rem;
-    --rounded-btn: 0.5rem;
-    --rounded-badge: 1.9rem;
-    --animation-btn: 0.25s;
-    --animation-input: 0.2s;
-    --btn-focus-scale: 0.9;
-    --border-btn: 1px;
-    --tab-border: 1px;
-    --tab-radius: 0.5rem;
+  * {
+    @apply touch-manipulation;
+    overscroll-behavior: none;
   }
 
   html,
-  body,
-  #app,
-  main {
+  body {
     @apply h-full;
   }
 
   html {
     font-family: "Figtree Variable", sans-serif;
-    scrollbar-gutter: auto !important;
-  }
-
-  input,
-  textarea {
-    @apply placeholder-base-content placeholder-opacity-50;
-  }
-
-  ::placeholder {
-    @apply !text-base-content/50;
   }
 
   ::selection {
-    @apply bg-primary text-primary-content;
+    @apply text-accent-content bg-accent;
   }
-}
-
-@layer utilities {
-  .btn {
-    @apply shadow-none;
-  }
-}
-
-div.toaster > div.wrapper > div {
-  @apply bg-base-200 rounded-box text-base-content shadow-lg;
-}
-
-@font-face {
-  font-family: "BigNoodleTitling";
-  font-style: normal;
-  src: url("/fonts/big_noodle_titling.ttf");
-}
-
-@font-face {
-  font-family: "BigNoodleTitling";
-  font-style: italic;
-  src: url("/fonts/big_noodle_titling_oblique.ttf");
 }

@@ -28,8 +28,8 @@
 </script>
 
 <div class="flex flex-col gap-2">
-  <div class="rounded-box pl-4 p-2 bg-base-200">
-    <div class="flex gap-2 items-center justify-between p-1">
+  <div class="rounded-box bg-base-200 p-2 pl-4">
+    <div class="flex items-center justify-between gap-2 p-1">
       <span class="label-text text-base">{title}</span>
       {#if type === "checkbox" || type === "toggle"}
         <input
@@ -72,5 +72,5 @@
       {/if}
     </div>
   </div>
-  <p class="mx-4 text-sm mb-4 text-base-content/50"><slot></slot></p>
+  <p class="text-base-content/50 mx-4 mb-4 text-sm"><slot></slot></p>
 </div>

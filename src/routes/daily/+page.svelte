@@ -4,13 +4,11 @@
   import Modal from "$lib/components/Modal.svelte";
 
   import { generateDiff } from "$lib/diff";
-  import { sha256 } from "$lib/crypto";
   import { getDeltaDay } from "$lib/date";
 
-  import data from "$lib/data.json";
+  import data from "$lib/assets/flags/data.json";
 
   import { onMount } from "svelte";
-  import toast from "svelte-french-toast";
   import pluralize from "pluralize";
 
   import { db } from "$lib/db";
@@ -19,6 +17,7 @@
 
   import LucideShare from "~icons/lucide/share";
   import { liveQuery } from "dexie";
+  import { sha256 } from "@oslojs/crypto/sha2";
 
   interface Country {
     code: string;
@@ -56,8 +55,8 @@
     const tzo = new Date().getTimezoneOffset() * 60_000;
     const date = new Date(Date.now() - tzo).toISOString().split("T")[0];
     ISODate = date;
-    const hash = await sha256(date);
-    const rnd = Number("0x" + hash.slice(0, 3)) / 16 ** 3;
+    const hash = await sha256(new TextEncoder().encode(date));
+    const rnd = (hash[0] + hash[1]) / (255 * 2);
     const index = Math.floor(rnd * data.length);
     target = data[index];
 
@@ -114,14 +113,7 @@
 
   function copyResults() {
     const resultString = `🏁 Flaggle #${dailyNumber} ${date} in ${pluralize("guess", $daily?.guesses || guesses, true)}! 👉 https://flaggle.kennyhui.dev/daily`;
-    navigator.clipboard
-      .writeText(resultString)
-      .then(() => {
-        toast.success("Copied results to clipboard");
-      })
-      .catch(() => {
-        toast.error("Failed to copy to results clipboard");
-      });
+    navigator.clipboard.writeText(resultString);
   }
 
   function showResults() {
@@ -129,12 +121,12 @@
   }
 </script>
 
-<h1 class="font-[BigNoodleTitling] italic text-center text-4xl">
+<h1 class="text-center font-[BigNoodleTitling] text-4xl italic">
   Flaggle #{dailyNumber} <span class="text-base-content/50">{date}</span>
 </h1>
 {#if isGameOver || $daily?.guesses}
   <button
-    class="font-[BigNoodleTitling] font-normal italic text-2xl btn self-center"
+    class="btn self-center font-[BigNoodleTitling] text-2xl font-normal italic"
     on:click={showResults}>Results</button
   >
 {:else}
@@ -144,7 +136,7 @@
 
 <Modal title="Results" bind:this={modal} centered>
   <p>You solved today's <b>Flaggle #{dailyNumber}</b> in</p>
-  <p class="font-[BigNoodleTitling] italic text-5xl mb-2">
+  <p class="mb-2 font-[BigNoodleTitling] text-5xl italic">
     {pluralize("guess", $daily?.guesses || guesses, true)}
   </p>
   <div class="flex gap-2">

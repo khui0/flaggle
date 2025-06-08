@@ -26,7 +26,7 @@ Build a streak by identifying flags and not giving up! **The streak counter will
 
 ### Lightning
 
-You're shown the target flag and you have six attempts to identify it. 
+You're shown the target flag and you have six attempts to identify it.
 
 <img width="802" alt="image" src="https://github.com/khui0/flaggle/assets/101839505/78de92e6-e153-4d9d-9c00-1198ee2e64d0">
 

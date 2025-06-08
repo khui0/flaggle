@@ -9,8 +9,8 @@
 </script>
 
 <div class="flex items-center gap-3">
-  <enhanced:img src="$lib/assets/flaggle.svg" class="h-12" alt="Flaggle icon" />
-  <h1 class="font-[BigNoodleTitling] italic text-6xl">Flaggle</h1>
+  <enhanced:img src="$lib/assets/branding/flaggle.svg" class="h-12 w-auto" alt="Flaggle icon" />
+  <h1 class="font-[BigNoodleTitling] text-6xl italic">Flaggle</h1>
 </div>
 <MainMenuItem href="/daily" title="Daily">
   A new flag every day

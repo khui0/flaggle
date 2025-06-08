@@ -1,5 +1,5 @@
 <script lang="ts">
-  import data from "$lib/data.json";
+  import data from "$lib/assets/flags/data.json";
 
   const flags = data as { code: string; name: string }[];
 

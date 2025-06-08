@@ -52,14 +52,14 @@
   })();
 </script>
 
-<p class="whitespace-nowrap text-3xl z-10">
+<p class="z-10 text-3xl whitespace-nowrap">
   <span class="font-[BigNoodleTitling] italic {effect}">{value.toLocaleString()} </span>
   <span class="glow">{postfix}</span>
 </p>
 
 {#if show}
-  <div class="fixed inset-0 z-50 pointer-events-none flex items-center justify-center">
-    <p class="big whitespace-nowrap text-8xl">
+  <div class="pointer-events-none fixed inset-0 z-50 flex items-center justify-center">
+    <p class="big text-8xl whitespace-nowrap">
       <span class="font-[BigNoodleTitling] italic {effect}">{value.toLocaleString()} </span>
       <span class="glow">{postfix}</span>
     </p>
@@ -67,34 +67,36 @@
 {/if}
 
 <style>
+  @reference "../../app.css";
+
   .red {
-    @apply bg-gradient-to-b from-[#df4223] via-[#ed7150] to-[#fae070] text-transparent bg-clip-text;
+    @apply bg-gradient-to-b from-[#df4223] via-[#ed7150] to-[#fae070] bg-clip-text text-transparent;
     text-shadow: 0 0 0.625em red;
   }
 
   .purple {
-    @apply bg-gradient-to-b from-[#7b23df] via-[#c850ed] to-[#fa70b7] text-transparent bg-clip-text;
+    @apply bg-gradient-to-b from-[#7b23df] via-[#c850ed] to-[#fa70b7] bg-clip-text text-transparent;
     text-shadow: 0 0 0.625em #c850ed;
   }
 
   .blue {
-    @apply bg-gradient-to-b from-[#4923df] via-[#50c6ed] to-[#70face] text-transparent bg-clip-text;
+    @apply bg-gradient-to-b from-[#4923df] via-[#50c6ed] to-[#70face] bg-clip-text text-transparent;
     text-shadow: 0 0 0.625em #50c6ed;
   }
 
   .green {
-    @apply bg-gradient-to-b from-[#23dfa7] via-[#50ed68] to-[#d3fa70] text-transparent bg-clip-text;
+    @apply bg-gradient-to-b from-[#23dfa7] via-[#50ed68] to-[#d3fa70] bg-clip-text text-transparent;
     text-shadow: 0 0 0.625em #50ed68;
   }
 
   .yellow {
-    @apply bg-gradient-to-b from-[#df8123] via-[#e8ed50] to-[#a7fa70] text-transparent bg-clip-text;
+    @apply bg-gradient-to-b from-[#df8123] via-[#e8ed50] to-[#a7fa70] bg-clip-text text-transparent;
     text-shadow: 0 0 0.625em #e8ed50;
   }
 
   /* Adapted from https://codepen.io/shironitus/pen/QWyNBqx */
   .rainbow {
-    @apply relative text-transparent bg-clip-text;
+    @apply relative bg-clip-text text-transparent;
     background-image: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
     background-size: 400%;
     animation: animate 5s linear infinite;

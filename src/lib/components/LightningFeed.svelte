@@ -13,7 +13,7 @@
     {@const guess = items[i]}
     {#if guess}
       <div
-        class="flex items-center justify-center bg-base-200/50 rounded-btn h-8 gap-4"
+        class="bg-base-200/50 rounded-field flex h-8 items-center justify-center gap-4"
         class:correct={guess?.win}
         class:incorrect={!guess?.win}
       >
@@ -21,18 +21,20 @@
           <img
             src="./flags/{guess.code}.png"
             alt={guess.name}
-            class="bg-base-100/50 h-full aspect-[3/2]"
+            class="bg-base-100/50 aspect-[3/2] h-full"
           />
         {/if}
         <p>{guess.name}</p>
       </div>
     {:else}
-      <div class="flex items-center justify-center bg-base-200/50 rounded-btn h-8 gap-4"></div>
+      <div class="bg-base-200/50 rounded-field flex h-8 items-center justify-center gap-4"></div>
     {/if}
   {/each}
 </div>
 
 <style>
+  @reference "../../app.css";
+
   .correct {
     @apply bg-primary text-primary-content;
   }

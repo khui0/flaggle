@@ -6,7 +6,7 @@
   import LightningFeed from "$lib/components/LightningFeed.svelte";
   import Confirm from "$lib/components/Confirm.svelte";
 
-  import data from "$lib/data.json";
+  import data from "$lib/assets/flags/data.json";
 
   import { db } from "$lib/db";
   import { onMount } from "svelte";
@@ -125,17 +125,17 @@
 </script>
 
 {#if target}
-  <div class="h-[20vw] min-h-20 max-h-48 flex justify-center">
+  <div class="flex h-[20vw] max-h-48 min-h-20 justify-center">
     <img
       src="./flags/{target?.code}.png"
       alt="Target flag"
-      class="bg-base-100/50 aspect-[3/2] pointer-events-none"
+      class="bg-base-100/50 pointer-events-none aspect-[3/2]"
     />
   </div>
 {/if}
 <div class="flex gap-2">
   {#if $lightningStreak > 0}
-    <div class="text-xl flex items-center px-1">
+    <div class="flex items-center px-1 text-xl">
       <Streak value={$lightningStreak}></Streak>
     </div>
   {/if}
@@ -144,7 +144,7 @@
       <GameInput on:submit={addGuess}></GameInput>
     </div>
   {:else}
-    <p in:fly={{ duration: 500, x: -50 }} class="font-[BigNoodleTitling] italic text-4xl">
+    <p in:fly={{ duration: 500, x: -50 }} class="font-[BigNoodleTitling] text-4xl italic">
       {target.name}
     </p>
   {/if}
@@ -155,7 +155,7 @@
 <LightningFeed {items}></LightningFeed>
 {#if !isGameOver}
   <button
-    class="font-[BigNoodleTitling] italic text-2xl text-base-content/50 hover:text-error transition-colors btn self-center"
+    class="text-base-content/50 hover:text-error btn self-center font-[BigNoodleTitling] text-2xl italic transition-colors"
     on:click={() => {
       confirm
         .prompt("Are you sure you want to give up?", "This will reset your streak!", "Give Up")
@@ -164,7 +164,7 @@
   >
 {:else}
   <button
-    class="font-[BigNoodleTitling] font-normal italic text-2xl btn self-center"
+    class="btn self-center font-[BigNoodleTitling] text-2xl font-normal italic"
     on:click={playAgain}
   >
     Play Again

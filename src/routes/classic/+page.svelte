@@ -7,7 +7,7 @@
   import Confirm from "$lib/components/Confirm.svelte";
 
   import { generateDiff } from "$lib/diff";
-  import data from "$lib/data.json";
+  import data from "$lib/assets/flags/data.json";
 
   import { db } from "$lib/db";
   import { onMount } from "svelte";
@@ -126,7 +126,7 @@
 
 <div class="flex gap-2">
   {#if $streak > 0}
-    <div class="text-xl flex items-center px-1">
+    <div class="flex items-center px-1 text-xl">
       <Streak value={$streak}></Streak>
     </div>
   {/if}
@@ -134,7 +134,7 @@
     {#if !isGameOver}
       <GameInput on:submit={addGuess}></GameInput>
     {:else}
-      <p in:fly={{ duration: 500, x: -50 }} class="font-[BigNoodleTitling] italic text-4xl">
+      <p in:fly={{ duration: 500, x: -50 }} class="font-[BigNoodleTitling] text-4xl italic">
         {target.name}
       </p>
     {/if}
@@ -143,7 +143,7 @@
 <GameFeed {items}></GameFeed>
 {#if items.length > 0 && !isGameOver}
   <button
-    class="font-[BigNoodleTitling] font-normal italic text-2xl text-base-content/50 hover:text-error transition-colors btn self-center"
+    class="text-base-content/50 hover:text-error btn self-center font-[BigNoodleTitling] text-2xl font-normal italic transition-colors"
     on:click={() => {
       confirm
         .prompt("Are you sure you want to give up?", "This will reset your streak!", "Give Up")
@@ -152,7 +152,7 @@
   >
 {:else if isGameOver}
   <button
-    class="font-[BigNoodleTitling] italic text-2xl text-base-content/50 btn self-center"
+    class="text-base-content/50 btn self-center font-[BigNoodleTitling] text-2xl italic"
     on:click={playAgain}>Play Again</button
   >
 {/if}

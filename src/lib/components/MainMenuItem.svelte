@@ -7,16 +7,16 @@
 <a
   {href}
   {target}
-  class="flex flex-col gap-1 py-4 px-5 rounded-box bg-base-200 relative overflow-hidden group"
+  class="rounded-box bg-base-200 group relative flex flex-col gap-1 overflow-hidden px-5 py-4"
 >
   <h2
-    class="font-[BigNoodleTitling] italic text-4xl group-hover:text-accent transition-colors z-10"
+    class="group-hover:text-accent z-10 font-[BigNoodleTitling] text-4xl italic transition-colors"
   >
     {title}
   </h2>
   <p class="text-neutral-content z-10 mr-20"><slot></slot></p>
   <div
-    class="absolute right-4 bottom-[-0.6rem] group-hover:bottom-[1rem] text-6xl text-neutral group-hover:text-accent transition-all z-0"
+    class="text-neutral group-hover:text-accent absolute right-4 bottom-[-0.6rem] z-0 text-6xl transition-all group-hover:bottom-[1rem]"
   >
     <slot name="icon"></slot>
   </div>

@@ -28,7 +28,7 @@
   }}
 >
   <p>{bodyText}</p>
-  <form method="dialog" class="flex gap-2 my-1">
+  <form method="dialog" class="my-1 flex gap-2">
     <button class="btn btn-sm flex-1">Cancel</button>
     <button
       class="btn btn-sm flex-1"
