@@ -78,7 +78,7 @@
     </p>
   </div>
 {:else}
-  <div class="mx-auto flex w-full max-w-4xl flex-col gap-4 p-4 pb-16">
+  <div class="mx-auto flex w-full max-w-4xl flex-col gap-4 overflow-x-hidden p-4 pb-16">
     {@render children()}
   </div>
   <Navigation />
