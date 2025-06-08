@@ -20,6 +20,6 @@
   {@render children()}
 </div>
 <Navigation />
-<p class="fixed right-0 bottom-0 m-3 leading-none font-semibold opacity-30">
+<p class="fixed right-0 bottom-0 m-3 leading-none font-semibold mix-blend-overlay">
   {import.meta.env.PACKAGE_VERSION}
 </p>
