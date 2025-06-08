@@ -112,3 +112,9 @@
 @utility font-title {
   @apply font-[BigNoodleTitling] text-4xl font-normal italic;
 }
+
+@utility btn {
+  &:active:not(.btn-active) {
+    translate: 0 0;
+  }
+}
