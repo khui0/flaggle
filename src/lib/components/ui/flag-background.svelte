@@ -60,15 +60,39 @@
   class="absolute top-1/2 left-1/2 -translate-1/2 blur-md"
   style="width: {containerWidth}px; height: {containerHeight}px; rotate: -{ANGLE}deg;"
 >
-  {#each queue as row}
-    <div class="flex">
-      {#each row.slice(0, maxCount) as flag}
-        <img
-          src="./flags/{flag.code}.png"
-          alt={flag.name}
-          style="height: {flagHeight}px; width: {flagWidth}px;"
-        />
-      {/each}
-    </div>
-  {/each}
+  <div>
+    {#each queue as row}
+      <div class="slide flex" style="--width: {flagWidth * maxCount};">
+        {#each row.slice(0, maxCount) as flag}
+          <img
+            src="./flags/{flag.code}.png"
+            alt={flag.name}
+            style="height: {flagHeight}px; width: {flagWidth}px;"
+          />
+        {/each}
+        {#each row.slice(0, maxCount) as flag}
+          <img
+            src="./flags/{flag.code}.png"
+            alt={flag.name}
+            style="height: {flagHeight}px; width: {flagWidth}px;"
+          />
+        {/each}
+      </div>
+    {/each}
+  </div>
 </div>
+
+<style>
+  .slide {
+    animation: slide 30s linear infinite;
+  }
+
+  @keyframes slide {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(var(--width) * -1px));
+    }
+  }
+</style>
