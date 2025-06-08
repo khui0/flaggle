@@ -64,7 +64,7 @@
   --radius-box: 1rem;
   --size-selector: 0.25rem;
   --size-field: 0.25rem;
-  --border: 0;
+  --border: 1px;
   --depth: 0;
   --noise: 0;
 }
