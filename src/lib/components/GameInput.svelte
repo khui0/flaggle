@@ -125,7 +125,7 @@
 
 <label
   bind:this={container}
-  class="input bg-base-200 rounded-field relative flex w-full items-center gap-1 border-none pr-2"
+  class="input bg-base-200 rounded-field \ relative flex w-full items-center gap-1 pr-2"
 >
   <input
     bind:value={query}
