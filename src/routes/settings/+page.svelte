@@ -1,8 +1,8 @@
 <script lang="ts">
   import { settings } from "$lib/settings";
 
-  import SettingsField from "./SettingsField.svelte";
-  import Confirm from "$lib/components/Confirm.svelte";
+  import SettingsField from "./settings-field.svelte";
+  import Confirm from "$lib/components/modal/confirm.svelte";
 
   import BiGithub from "~icons/bi/github";
 
