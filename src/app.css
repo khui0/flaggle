@@ -96,3 +96,19 @@
     @apply text-accent-content bg-accent;
   }
 }
+
+@font-face {
+  font-family: "BigNoodleTitling";
+  font-style: normal;
+  src: url("/fonts/big_noodle_titling.ttf");
+}
+
+@font-face {
+  font-family: "BigNoodleTitling";
+  font-style: italic;
+  src: url("/fonts/big_noodle_titling_oblique.ttf");
+}
+
+@utility font-title {
+  @apply font-[BigNoodleTitling] text-4xl font-normal italic;
+}

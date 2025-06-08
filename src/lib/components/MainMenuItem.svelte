@@ -9,9 +9,7 @@
   {target}
   class="rounded-box bg-base-200 group relative flex flex-col gap-1 overflow-hidden px-5 py-4"
 >
-  <h2
-    class="group-hover:text-accent z-10 font-[BigNoodleTitling] text-4xl italic transition-colors"
-  >
+  <h2 class="group-hover:text-accent font-title z-10 transition-colors">
     {title}
   </h2>
   <p class="text-neutral-content z-10 mr-20"><slot></slot></p>

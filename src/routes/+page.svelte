@@ -1,34 +1,32 @@
 <script lang="ts">
-  import MainMenuItem from "$lib/components/MainMenuItem.svelte";
-
+  import MenuButton from "$lib/components/ui/menu-button.svelte";
+  import LucideBookOpen from "~icons/lucide/book-open";
   import LucideCalendarDays from "~icons/lucide/calendar-days";
   import LucideFlag from "~icons/lucide/flag";
-  import LucideZap from "~icons/lucide/zap";
-  import LucideBookOpen from "~icons/lucide/book-open";
   import LucideSettings from "~icons/lucide/settings";
+  import LucideZap from "~icons/lucide/zap";
 </script>
 
-<div class="flex items-center gap-3">
-  <enhanced:img src="$lib/assets/branding/flaggle.svg" class="h-12 w-auto" alt="Flaggle icon" />
-  <h1 class="font-[BigNoodleTitling] text-6xl italic">Flaggle</h1>
+<div class="absolute inset-0 flex flex-col items-center justify-center gap-5 p-10">
+  <div class="flex items-center gap-5">
+    <enhanced:img src="$lib/assets/branding/flaggle.svg" class="h-19 w-19" alt="Flaggle icon" />
+    <h1 class="font-title text-8xl leading-none">Flaggle</h1>
+  </div>
+  <div class="grid w-full max-w-4xl grid-cols-2 gap-2 md:grid-cols-5">
+    <MenuButton href="/daily" label="Daily">
+      <LucideCalendarDays />
+    </MenuButton>
+    <MenuButton href="/classic" label="Classic">
+      <LucideFlag />
+    </MenuButton>
+    <MenuButton href="/lightning" label="Lightning">
+      <LucideZap />
+    </MenuButton>
+    <MenuButton href="/reference" label="Reference">
+      <LucideBookOpen />
+    </MenuButton>
+    <MenuButton href="/settings" label="Settings">
+      <LucideSettings />
+    </MenuButton>
+  </div>
 </div>
-<MainMenuItem href="/daily" title="Daily">
-  A new flag every day
-  <span slot="icon"><LucideCalendarDays></LucideCalendarDays></span>
-</MainMenuItem>
-<MainMenuItem href="/classic" title="Classic">
-  Match colors and shapes
-  <span slot="icon"><LucideFlag></LucideFlag></span>
-</MainMenuItem>
-<MainMenuItem href="/lightning" title="Lightning">
-  Fast-paced quick identification
-  <span slot="icon"><LucideZap></LucideZap></span>
-</MainMenuItem>
-<MainMenuItem href="/reference" title="Reference">
-  View all flags
-  <span slot="icon"><LucideBookOpen></LucideBookOpen></span>
-</MainMenuItem>
-<MainMenuItem href="/settings" title="Settings">
-  Manage preferences
-  <span slot="icon"><LucideSettings></LucideSettings></span>
-</MainMenuItem>
