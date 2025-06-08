@@ -1,6 +1,6 @@
 <script lang="ts">
   import { lightningStreak } from "$lib/stats";
-  import Streak from "$lib/components/Streak.svelte";
+  import Streak from "$lib/components/widgets/streak.svelte";
 
   import GameInput from "$lib/components/GameInput.svelte";
   import LightningFeed from "$lib/components/LightningFeed.svelte";

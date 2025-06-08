@@ -51,20 +51,20 @@
 
 <p class="z-10 flex gap-[0.25em] text-3xl whitespace-nowrap {colorClassName}">
   <span class="font-title">{value.toLocaleString()} </span>
-  <span class="font-[Icons]">A</span>
+  <span class="font-[Icons]" aria-hidden="true">A</span>
 </p>
 
 {#if show}
   <div class="pointer-events-none fixed inset-0 z-50 flex items-center justify-center">
     <p class="big flex gap-[0.25em] text-8xl whitespace-nowrap {colorClassName}">
       <span class="font-title">{value.toLocaleString()} </span>
-      <span class="font-[Icons]">A</span>
+      <span class="font-[Icons]" aria-hidden="true">A</span>
     </p>
   </div>
 {/if}
 
 <style>
-  @reference "../../app.css";
+  @reference "../../../app.css";
 
   .red {
     @apply bg-gradient-to-b from-[#df4223] via-[#ed7150] to-[#fae070] bg-clip-text text-transparent;
@@ -96,7 +96,7 @@
     @apply relative bg-clip-text text-transparent;
     background-image: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
     background-size: 400%;
-    animation: animate 5s linear infinite;
+    animation: scroll 5s linear infinite;
   }
 
   .rainbow:before {
@@ -104,10 +104,10 @@
     @apply absolute inset-x-0 inset-y-2 -z-[1] rounded-full blur-[0.625em];
     background: linear-gradient(90deg, #03a9f4, #f441a5, #ffeb3b, #03a9f4);
     background-size: 400%;
-    animation: animate 5s linear infinite;
+    animation: scroll 5s linear infinite;
   }
 
-  @keyframes animate {
+  @keyframes scroll {
     0% {
       background-position: 0%;
     }
