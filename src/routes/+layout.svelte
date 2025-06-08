@@ -3,7 +3,7 @@
   import "@fontsource-variable/rubik";
   import "../app.css";
 
-  import Navigation from "$lib/components/Navigation.svelte";
+  import Navigation from "$lib/components/navigation.svelte";
   import FlagBackground from "$lib/components/ui/flag-background.svelte";
   import MenuButton from "$lib/components/ui/menu-button.svelte";
   import LucideBookOpen from "~icons/lucide/book-open";
@@ -32,7 +32,7 @@
     class="fixed inset-0 z-0 flex items-center justify-center overflow-hidden"
   >
     <FlagBackground />
-  <div class="bg-accent absolute bottom-0 left-0 z-0 h-1/5 w-full mask-t-from-0%"></div>
+    <div class="bg-accent absolute bottom-0 left-0 z-0 h-1/5 w-full mask-t-from-0%"></div>
   </div>
   <div
     in:fade
