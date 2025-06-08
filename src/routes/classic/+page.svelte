@@ -2,9 +2,9 @@
   import { streak } from "$lib/stats";
   import Streak from "$lib/components/widgets/streak.svelte";
 
-  import GameInput from "$lib/components/GameInput.svelte";
-  import GameFeed from "$lib/components/GameFeed.svelte";
-  import Confirm from "$lib/components/Confirm.svelte";
+  import GameInput from "$lib/components/widgets/game-input.svelte";
+  import GameFeed from "$lib/components/widgets/game-feed.svelte";
+  import Confirm from "$lib/components/modal/confirm.svelte";
 
   import { generateDiff } from "$lib/diff";
   import data from "$lib/assets/flags/data.json";

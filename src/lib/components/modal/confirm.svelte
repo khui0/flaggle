@@ -1,6 +1,6 @@
 <script lang="ts">
   import { DeferredPromise } from "@open-draft/deferred-promise";
-  import Modal from "./Modal.svelte";
+  import Modal from "./modal.svelte";
 
   let modal: Modal;
 

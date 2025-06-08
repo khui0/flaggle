@@ -1,7 +1,7 @@
 <script lang="ts">
-  import GameInput from "$lib/components/GameInput.svelte";
-  import GameFeed from "$lib/components/GameFeed.svelte";
-  import Modal from "$lib/components/Modal.svelte";
+  import GameInput from "$lib/components/widgets/game-input.svelte";
+  import GameFeed from "$lib/components/widgets/game-feed.svelte";
+  import Modal from "$lib/components/modal/modal.svelte";
 
   import { generateDiff } from "$lib/diff";
   import { getDeltaDay } from "$lib/date";

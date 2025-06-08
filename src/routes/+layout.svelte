@@ -3,7 +3,7 @@
   import "@fontsource-variable/rubik";
   import "../app.css";
 
-  import Navigation from "$lib/components/navigation.svelte";
+  import Navigation from "$lib/components/ui/navigation.svelte";
   import FlagBackground from "$lib/components/ui/flag-background.svelte";
   import MenuButton from "$lib/components/ui/menu-button.svelte";
   import LucideBookOpen from "~icons/lucide/book-open";
