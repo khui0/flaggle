@@ -7,7 +7,7 @@
   import Streak from "$lib/components/widgets/streak.svelte";
   import { getRandomFlag, type Flag } from "$lib/content";
   import { db } from "$lib/db";
-  import { lightningStreak } from "$lib/stats";
+  import { lightningStats } from "$lib/stats";
   import { onMount } from "svelte";
   import { fly } from "svelte/transition";
 
@@ -46,6 +46,9 @@
     }
   });
 
+  const streak = lightningStats.streak;
+  const maxStreak = lightningStats.maxStreak;
+
   async function addGuess(flag: Flag) {
     if (gameState.isGameOver) return;
     const win = checkWin(flag);
@@ -66,16 +69,11 @@
         guesses: gameState.guesses.length,
       });
       // Increment streak
-      const currentStreak = (await db.stats.get("lightning-streak"))?.value || 0;
-      const maxStreak = (await db.stats.get("max-lightning-streak"))?.value || 0;
-      db.stats.put({ name: "lightning-streak", value: currentStreak + 1 });
-      if (currentStreak + 1 > maxStreak) {
-        // Record current streak as max streak
-        db.stats.put({ name: "max-lightning-streak", value: currentStreak + 1 });
+      db.stats.put({ name: "lightning-streak", value: $streak + 1 });
+      if ($streak > $maxStreak) {
+        db.stats.put({ name: "lightning-max-streak", value: $streak });
       }
-      // Remove unfinished game state
-      window.localStorage.removeItem("unfinished-flaggle-lightning");
-      // Mark game as over
+      // Update state
       gameState.isGameOver = true;
     }
   }
@@ -127,9 +125,9 @@
     </div>
   {/if}
   <div class="flex gap-2">
-    {#if $lightningStreak > 0}
+    {#if $streak > 0}
       <div class="gameState.guesses-center flex px-1 text-xl">
-        <Streak value={$lightningStreak}></Streak>
+        <Streak value={$streak}></Streak>
       </div>
     {/if}
     {#if !gameState.isGameOver}
