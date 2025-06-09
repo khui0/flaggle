@@ -1,11 +1,9 @@
 <script lang="ts">
-  import { settings } from "$lib/settings.svelte";
-
-  import SettingsField from "./settings-field.svelte";
-
   import GameContainer from "$lib/components/ui/game-container.svelte";
+  import { settings } from "$lib/settings.svelte";
   import BiGithub from "~icons/bi/github";
   import SettingsFieldContainer from "./settings-field-container.svelte";
+  import SettingsField from "./settings-field.svelte";
   import ThemeSelector from "./theme-selector.svelte";
 </script>
 
