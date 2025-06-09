@@ -13,6 +13,7 @@
   import { onMount } from "svelte";
   import { settings } from "$lib/settings";
   import { fly } from "svelte/transition";
+  import GameContainer from "$lib/components/ui/game-container.svelte";
 
   let confirm: Confirm;
 
@@ -124,36 +125,39 @@
   }
 </script>
 
-<div class="flex gap-2">
-  {#if $streak > 0}
-    <div class="flex items-center px-1 text-xl">
-      <Streak value={$streak}></Streak>
+<GameContainer>
+  {#snippet header()}
+    <div class="flex gap-2">
+      {#if $streak > 0}
+        <div class="flex items-center px-1 text-xl">
+          <Streak value={$streak}></Streak>
+        </div>
+      {/if}
+      <div class="flex flex-1 items-center justify-between">
+        {#if !isGameOver}
+          <FlagInput on:submit={addGuess}></FlagInput>
+        {:else}
+          <p in:fly={{ duration: 500, x: -50 }} class="font-[BigNoodleTitling] text-4xl italic">
+            {target.name}
+          </p>
+          <button class="btn font-title text-2xl" on:click={playAgain}> Play Again </button>
+        {/if}
+      </div>
     </div>
+  {/snippet}
+  <ClassicFeed {items} />
+  {#if items.length > 0 && !isGameOver}
+    <button
+      class="btn font-title self-center text-2xl opacity-50 transition-opacity hover:opacity-100"
+      on:click={() => {
+        confirm
+          .prompt("Are you sure you want to give up?", "This will reset your streak!", "Give Up")
+          .then(giveUp);
+      }}
+    >
+      Give Up
+    </button>
   {/if}
-  <div class="flex-1">
-    {#if !isGameOver}
-      <FlagInput on:submit={addGuess}></FlagInput>
-    {:else}
-      <p in:fly={{ duration: 500, x: -50 }} class="font-[BigNoodleTitling] text-4xl italic">
-        {target.name}
-      </p>
-    {/if}
-  </div>
-</div>
-<ClassicFeed {items} />
-{#if items.length > 0 && !isGameOver}
-  <button
-    class="text-base-content/50 hover:text-error btn self-center font-[BigNoodleTitling] text-2xl font-normal italic transition-colors"
-    on:click={() => {
-      confirm
-        .prompt("Are you sure you want to give up?", "This will reset your streak!", "Give Up")
-        .then(giveUp);
-    }}>Give Up</button
-  >
-{:else if isGameOver}
-  <button
-    class="text-base-content/50 btn self-center font-[BigNoodleTitling] text-2xl italic"
-    on:click={playAgain}>Play Again</button
-  >
-{/if}
+</GameContainer>
+
 <Confirm bind:this={confirm}></Confirm>

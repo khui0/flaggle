@@ -78,7 +78,7 @@
     </p>
   </div>
 {:else}
-  <div class="mx-auto h-full w-full max-w-4xl overflow-x-hidden pb-12">
+  <div class="h-full overflow-x-hidden pb-12">
     {@render children()}
   </div>
   <Navigation />

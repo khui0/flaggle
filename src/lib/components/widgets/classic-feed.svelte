@@ -46,17 +46,17 @@
           alt={guess.name}
           class="bg-base-100/50 ml-auto aspect-[3/2] h-full max-h-48"
         />
-        {#if guess.diff}
-          <img
-            src={guess.diff}
-            alt="{guess.name} difference"
-            class={{
-              "z-30 aspect-[3/2] h-full max-h-48": true,
-              "bg-[#1a1a1a]": $settings.diffDarkBg === "true",
-              "bg-base-200": $settings.diffDarkBg !== "true",
-            }}
-          />
-        {/if}
+        <div
+          class={{
+            "z-30 aspect-[3/2] h-full max-h-48": true,
+            "bg-[#1a1a1a]": $settings.diffDarkBg === "true",
+            "bg-base-200": $settings.diffDarkBg !== "true",
+          }}
+        >
+          {#if guess.diff}
+            <img src={guess.diff} alt="{guess.name} difference" />
+          {/if}
+        </div>
       </div>
     </div>
   {/each}

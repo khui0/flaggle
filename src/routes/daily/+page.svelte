@@ -18,6 +18,7 @@
   import LucideShare from "~icons/lucide/share";
   import { liveQuery } from "dexie";
   import { sha256 } from "@oslojs/crypto/sha2";
+  import GameContainer from "$lib/components/ui/game-container.svelte";
 
   interface Country {
     code: string;
@@ -121,11 +122,11 @@
   }
 </script>
 
-<div class="flex h-full flex-col px-4">
-  <div class="bg-base-100 flex flex-col gap-3 py-4">
-    <h1 class="font-title text-center">
-      Flaggle <span class="text-base-content/50">#{dailyNumber}</span>
-    </h1>
+<GameContainer>
+  {#snippet title()}
+    Flaggle <span class="text-base-content/50">#{dailyNumber}</span>
+  {/snippet}
+  {#snippet header()}
     {#if isGameOver || $daily?.guesses}
       <button
         class="btn self-center font-[BigNoodleTitling] text-2xl font-normal italic"
@@ -134,11 +135,9 @@
     {:else}
       <FlagInput on:submit={addGuess}></FlagInput>
     {/if}
-  </div>
-  <div class="overflow-auto pb-4">
-    <ClassicFeed {items}></ClassicFeed>
-  </div>
-</div>
+  {/snippet}
+  <ClassicFeed {items}></ClassicFeed>
+</GameContainer>
 
 <Modal title="Results" bind:this={modal} centered>
   <p>You solved today's <b>Flaggle #{dailyNumber}</b> in</p>
