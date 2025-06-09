@@ -77,3 +77,39 @@ function average(array: number[]) {
   if (array.length === 0) return;
   return array.reduce((a, b) => a + b) / array.length;
 }
+
+export async function serializeSave(): Promise<string> {
+  const data: string[] = [];
+
+  data[0] = import.meta.env.PACKAGE_VERSION || "unknown_version";
+
+  // Play time [all, classic, lightning, daily]
+  data[1] = [0, 0, 0, 0].join(",");
+
+  // Classic [streak, maxStreak, history]
+  data[2] = [
+    (await db.stats.get("streak"))?.value || 0,
+    (await db.stats.get("max-streak"))?.value || 0,
+    compressClassicLightningHistory(await db.classic.toArray()),
+  ].join(",");
+
+  // Lightning [streak, maxStreak, history]
+  data[3] = [
+    (await db.stats.get("lightning-streak"))?.value || 0,
+    (await db.stats.get("max-lightning-streak"))?.value || 0,
+    compressClassicLightningHistory(await db.lightning.toArray()),
+  ].join(",");
+
+  // Daily [history]
+  data[4] = [compressDailyHistory(await db.daily.toArray())].join(",");
+
+  return "FLAGGLE_" + btoa(data.join("|"));
+}
+
+function compressClassicLightningHistory(history: { win: boolean; guesses: number }[]): string {
+  return history.map((item) => `${item.win ? "" : "-"}${item.guesses}`).join(":");
+}
+
+function compressDailyHistory(history: { date: string; guesses: number }[]): string {
+  return history.map((item) => `${item.date}+${item.guesses}`).join(":");
+}

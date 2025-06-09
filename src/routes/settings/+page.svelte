@@ -1,14 +1,16 @@
 <script lang="ts">
   import { settings } from "$lib/settings";
 
-  import toast from "svelte-french-toast";
-
-  import SettingsField from "./SettingsField.svelte";
   import Confirm from "$lib/components/Confirm.svelte";
+  import SettingsField from "./SettingsField.svelte";
 
+  import Modal from "$lib/components/Modal.svelte";
+  import { serializeSave } from "$lib/stats";
   import BiGithub from "~icons/bi/github";
 
   let confirm: Confirm;
+  let exportModal: Modal;
+  let exportString: string = "";
 
   interface Option {
     name: string;
@@ -24,8 +26,8 @@
   const version: string = import.meta.env.PACKAGE_VERSION;
 </script>
 
-<div class="flex justify-between items-center gap-4 flex-wrap">
-  <h1 class="font-[BigNoodleTitling] italic text-4xl">Settings</h1>
+<div class="flex flex-wrap items-center justify-between gap-4">
+  <h1 class="font-[BigNoodleTitling] text-4xl italic">Settings</h1>
   <a href="https://github.com/khui0/flaggle" title="GitHub" class="self-center text-2xl">
     <BiGithub></BiGithub>
   </a>
@@ -42,5 +44,29 @@
 <SettingsField type="toggle" title="Legacy tab behavior" bind:value={$settings.legacyTab}>
   When enabled, tab will insert the highlighted result instead of selecting the next one
 </SettingsField>
+<SettingsField
+  type="button"
+  title="Export Stats"
+  text="Export"
+  on:click={async () => {
+    exportString = await serializeSave();
+    exportModal.show();
+  }}
+>
+  When enabled, tab will insert the highlighted result instead of selecting the next one
+</SettingsField>
+
+<Modal bind:this={exportModal} title="Export Stats">
+  <textarea readonly class="textarea textarea-bordered resize-none" rows="6" value={exportString}
+  ></textarea>
+  <button
+    class="btn"
+    on:click={() => {
+      navigator.clipboard.writeText(exportString);
+    }}
+  >
+    Copy
+  </button>
+</Modal>
 
 <Confirm bind:this={confirm}></Confirm>
