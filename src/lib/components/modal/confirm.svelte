@@ -1,40 +1,33 @@
 <script lang="ts">
-  import { DeferredPromise } from "@open-draft/deferred-promise";
   import Modal from "./modal.svelte";
 
   let modal: Modal;
 
-  let result: DeferredPromise<string> | null;
+  let {
+    title,
+    body,
+    action,
+    onaccept,
+    onreject,
+  }: {
+    title: string;
+    body: string;
+    action: string;
+    onaccept?: () => void;
+    onreject?: () => void;
+  } = $props();
 
-  let titleText: string;
-  let bodyText: string;
-  let actionText: string;
-
-  export function prompt(title: string, body: string, action: string) {
-    result = new DeferredPromise();
-    titleText = title;
-    bodyText = body;
-    actionText = action;
+  export function prompt() {
     modal.show();
-    return result;
   }
 </script>
 
-<Modal
-  title={titleText}
-  bind:this={modal}
-  on:close={() => {
-    result?.reject();
-  }}
->
-  <p>{bodyText}</p>
+<Modal {title} bind:this={modal} onclose={onreject}>
+  <p class="my-2 text-base-content/80">{body}</p>
   <form method="dialog" class="my-1 flex gap-2">
-    <button class="btn btn-sm flex-1">Cancel</button>
-    <button
-      class="btn btn-sm flex-1"
-      on:click={() => {
-        result?.resolve("");
-      }}>{actionText}</button
-    >
+    <button class="btn flex-1">Cancel</button>
+    <button class="btn flex-1" onclick={onaccept}>
+      {action}
+    </button>
   </form>
 </Modal>

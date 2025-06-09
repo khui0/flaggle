@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { browser } from "$app/environment";
   import { flags, type Flag } from "$lib/content";
   import Fuse from "fuse.js";
   import { fly } from "svelte/transition";
@@ -12,7 +13,7 @@
     keys: ["code", "name"],
   });
 
-  let touch: boolean = $derived(window.matchMedia("(pointer: coarse)").matches);
+  let touch: boolean = $derived(browser && window.matchMedia("(pointer: coarse)").matches);
 
   let container: HTMLElement;
   let input: HTMLInputElement;

@@ -1,5 +1,7 @@
 @import "tailwindcss";
-@plugin "daisyui";
+@plugin "daisyui" {
+  exclude: rootscrollgutter;
+}
 
 @plugin "daisyui/theme" {
   name: "flaggle-light";
