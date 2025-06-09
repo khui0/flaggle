@@ -69,9 +69,11 @@
         guesses: gameState.guesses.length,
       });
       // Increment streak
-      db.stats.put({ name: "lightning-streak", value: $streak + 1 });
-      if ($streak > $maxStreak) {
-        db.stats.put({ name: "lightning-max-streak", value: $streak });
+      const currentStreak = (await db.stats.get("lightning-streak"))?.value || 0;
+      const maxStreak = (await db.stats.get("lightning-max-streak"))?.value || 0;
+      db.stats.put({ name: "lightning-streak", value: currentStreak + 1 });
+      if (currentStreak + 1 > maxStreak) {
+        db.stats.put({ name: "lightning-max-streak", value: currentStreak + 1 });
       }
       // Update state
       gameState.isGameOver = true;

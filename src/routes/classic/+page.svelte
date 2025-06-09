@@ -70,9 +70,11 @@
         guesses: gameState.guesses.length,
       });
       // Increment streak
-      db.stats.put({ name: "classic-streak", value: $streak + 1 });
-      if ($streak > $maxStreak) {
-        db.stats.put({ name: "classic-max-streak", value: $streak });
+      const currentStreak = (await db.stats.get("classic-streak"))?.value || 0;
+      const maxStreak = (await db.stats.get("classic-max-streak"))?.value || 0;
+      db.stats.put({ name: "classic-streak", value: currentStreak + 1 });
+      if (currentStreak + 1 > maxStreak) {
+        db.stats.put({ name: "classic-max-streak", value: currentStreak + 1 });
       }
       // Update state
       gameState.isGameOver = true;
