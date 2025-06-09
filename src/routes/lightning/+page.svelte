@@ -28,7 +28,7 @@
 
   onMount(() => {
     const flags =
-      $settings?.identicalFlags === "true" ? data : data.filter((item) => !item.duplicate);
+      settings.current.identicalFlags === "true" ? data : data.filter((item) => !item.duplicate);
     const previous = parseInt(window.localStorage.getItem("unfinished-flaggle-lightning") || "");
     target = previous ? flags[previous] : getRandomTarget();
     // Play again on enter
@@ -83,7 +83,7 @@
 
   function getRandomTarget(): Flag {
     const flags =
-      $settings?.identicalFlags === "true" ? data : data.filter((item) => !item.duplicate);
+      settings.current.identicalFlags === "true" ? data : data.filter((item) => !item.duplicate);
     const max = flags.length;
     let index;
     do {

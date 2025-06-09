@@ -13,8 +13,14 @@
   import LucideZap from "~icons/lucide/zap";
   import { page } from "$app/state";
   import { fade, scale } from "svelte/transition";
+  import { settings } from "$lib/settings.svelte";
 
   let { children } = $props();
+
+  $effect(() => {
+    localStorage.settings = JSON.stringify(settings.current);
+    console.log("settings updated");
+  });
 </script>
 
 <svelte:head>

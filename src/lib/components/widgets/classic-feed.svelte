@@ -49,8 +49,8 @@
         <div
           class={{
             "z-30 aspect-[3/2] h-full max-h-48": true,
-            "bg-[#1a1a1a]": $settings.diffDarkBg === "true",
-            "bg-base-200": $settings.diffDarkBg !== "true",
+            "bg-[#1a1a1a]": settings.current.diffDarkBg === "true",
+            "bg-base-200": settings.current.diffDarkBg !== "true",
           }}
         >
           {#if guess.diff}

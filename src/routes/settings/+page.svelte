@@ -2,12 +2,9 @@
   import { settings } from "$lib/settings.svelte";
 
   import SettingsField from "./settings-field.svelte";
-  import Confirm from "$lib/components/modal/confirm.svelte";
-
-  import BiGithub from "~icons/bi/github";
+  
   import GameContainer from "$lib/components/ui/game-container.svelte";
-
-  let confirm: Confirm;
+  import BiGithub from "~icons/bi/github";
 
   interface Option {
     name: string;
@@ -28,20 +25,16 @@
     Settings
   {/snippet}
   <div class="flex flex-col">
-    <SettingsField type="select" title="Theme" options={themes} bind:value={$settings.theme}>
+    <SettingsField type="select" title="Theme" options={themes} bind:value={settings.current.theme}>
       Select a theme
     </SettingsField>
-    <SettingsField type="toggle" title="Dark Background" bind:value={$settings.diffDarkBg}>
+    <SettingsField type="toggle" title="Dark Background" bind:value={settings.current.diffDarkBg}>
       Use a dark background behind the flag similarity regardless of theme
     </SettingsField>
-    <SettingsField
-      type="toggle"
-      title="Allow identical flags"
-      bind:value={$settings.identicalFlags}
-    >
+    <SettingsField type="toggle" title="Allow identical flags" bind:value={settings.current.identicalFlags}>
       Allow identical flags such as Norway, Bouvet Island, and Svalbard and Jan Mayen
     </SettingsField>
-    <SettingsField type="toggle" title="Legacy tab behavior" bind:value={$settings.legacyTab}>
+    <SettingsField type="toggle" title="Legacy tab behavior" bind:value={settings.current.legacyTab}>
       When enabled, tab will insert the highlighted result instead of selecting the next one
     </SettingsField>
   </div>
@@ -49,5 +42,3 @@
     <BiGithub></BiGithub>
   </a>
 </GameContainer>
-
-<Confirm bind:this={confirm}></Confirm>
