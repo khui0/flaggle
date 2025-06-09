@@ -30,7 +30,7 @@ export class Database extends Dexie {
 
   constructor() {
     super("database");
-    this.version(1).stores({
+    this.version(2).stores({
       stats: "name, value",
       daily: "date, guesses",
       classic: "++, win, guesses",
