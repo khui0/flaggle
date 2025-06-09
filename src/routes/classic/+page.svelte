@@ -5,13 +5,12 @@
   import ClassicFeed from "$lib/components/widgets/classic-feed.svelte";
   import Confirm from "$lib/components/modal/confirm.svelte";
   import { generateDiff } from "$lib/diff";
-  import data from "$lib/assets/flags/data.json";
   import { db } from "$lib/db";
   import { onMount } from "svelte";
   import { settings } from "$lib/settings";
   import { fly } from "svelte/transition";
   import GameContainer from "$lib/components/ui/game-container.svelte";
-  import type { Flag } from "$lib/content";
+  import { flags, getRandomFlag, type Flag } from "$lib/content";
 
   interface Guess extends Flag {
     diff?: string;
@@ -26,27 +25,17 @@
   let isGameOver: boolean = false;
 
   onMount(() => {
-    const flags =
-      $settings?.identicalFlags === "true" ? data : data.filter((item) => !item.duplicate);
     const previous = parseInt(window.localStorage.getItem("unfinished-flaggle-classic") || "");
-    target = previous ? flags[previous] : getRandomTarget();
-    // Play again on enter
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && isGameOver) {
-        e.preventDefault();
-        playAgain();
-      }
-    });
+    target = previous ? flags[previous] : getRandomFlag($settings?.identicalFlags === "true");
   });
 
-  async function addGuess(e: CustomEvent) {
+  async function addGuess(flag: Flag) {
     if (isGameOver) return;
-    const country: Flag = e.detail;
-    const diff = await generateDiff(country, target);
-    const win = checkWin(country);
+    const diff = await generateDiff(flag, target);
+    const win = checkWin(flag);
     const guess: Guess = {
-      code: country.code,
-      name: country.name,
+      code: flag.code,
+      name: flag.name,
       diff: diff,
       win: win,
     };
@@ -79,21 +68,8 @@
     return false;
   }
 
-  function getRandomTarget(): Flag {
-    const flags =
-      $settings?.identicalFlags === "true" ? data : data.filter((item) => !item.duplicate);
-    const max = flags.length;
-    let index;
-    do {
-      index = Math.floor(Math.random() * max);
-    } while (flags[index] === target);
-    // Store game state
-    window.localStorage.setItem("unfinished-flaggle-classic", index.toString());
-    return flags[index];
-  }
-
   function playAgain() {
-    target = getRandomTarget();
+    target = getRandomFlag();
     items = [];
     isGameOver = false;
   }
@@ -118,6 +94,15 @@
   }
 </script>
 
+<svelte:document
+  onkeydown={(e) => {
+    if (e.key === "Enter" && isGameOver) {
+      e.preventDefault();
+      playAgain();
+    }
+  }}
+/>
+
 <GameContainer>
   {#snippet header()}
     <div class="flex gap-2">
@@ -128,7 +113,7 @@
       {/if}
       <div class="flex flex-1 items-center justify-between">
         {#if !isGameOver}
-          <FlagInput on:submit={addGuess}></FlagInput>
+          <FlagInput onsubmit={addGuess}></FlagInput>
         {:else}
           <p in:fly={{ duration: 500, x: -50 }} class="font-[BigNoodleTitling] text-4xl italic">
             {target.name}

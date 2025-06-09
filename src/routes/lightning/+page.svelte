@@ -40,14 +40,13 @@
     });
   });
 
-  async function addGuess(e: CustomEvent) {
+  async function addGuess(flag: Flag) {
     if (isGameOver) return;
-    const country: Flag = e.detail;
-    const win = checkWin(country);
+    const win = checkWin(flag);
     const guess: Guess = {
       win: win,
-      name: country.name,
-      code: country.code,
+      name: flag.name,
+      code: flag.code,
     };
     items = [...items, guess];
     if (items.length === 6) {
@@ -136,7 +135,7 @@
     {/if}
     {#if !isGameOver}
       <div class="flex-1">
-        <FlagInput on:submit={addGuess}></FlagInput>
+        <FlagInput onsubmit={addGuess}></FlagInput>
       </div>
     {:else}
       <p in:fly={{ duration: 500, x: -50 }} class="font-[BigNoodleTitling] text-4xl italic">

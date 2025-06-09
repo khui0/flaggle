@@ -14,6 +14,7 @@ export const flags: Flag[] = data.sort((a, b) => {
   return 0;
 });
 
-export function getRandomFlag(): Flag {
-  return flags[Math.floor(Math.random() * flags.length)];
+export function getRandomFlag(allowDuplicates: boolean = false): Flag {
+  const filtered = allowDuplicates ? flags : flags.filter((flag) => !flag.duplicate);
+  return filtered[Math.floor(Math.random() * filtered.length)];
 }

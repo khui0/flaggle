@@ -70,15 +70,14 @@
     if (daily?.guesses) solved = true;
   });
 
-  async function addGuess(e: CustomEvent) {
+  async function addGuess(flag: Flag) {
     if (isGameOver) return;
     if (target === null) return;
-    const country: Flag = e.detail;
-    const diff = await generateDiff(country, target);
-    const win = checkWin(country);
+    const diff = await generateDiff(flag, target);
+    const win = checkWin(flag);
     const guess: Guess = {
-      code: country.code,
-      name: country.name,
+      code: flag.code,
+      name: flag.name,
       diff: diff,
       win: win,
     };
@@ -121,7 +120,7 @@
     {/snippet}
     {#snippet header()}
       {#if !(isGameOver || $daily?.guesses)}
-        <FlagInput on:submit={addGuess}></FlagInput>
+        <FlagInput onsubmit={addGuess}></FlagInput>
       {/if}
     {/snippet}
     <ClassicFeed {items}></ClassicFeed>
