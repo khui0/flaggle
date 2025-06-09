@@ -74,7 +74,7 @@
     </div>
   </div>
   <div
-    class="fixed right-0 bottom-0 left-0 z-20 m-3 flex justify-between leading-none font-semibold text-white mix-blend-overlay"
+    class="fixed right-0 bottom-0 left-0 z-20 m-3 flex justify-between leading-none font-semibold text-white [&>*]:opacity-50 [&>*]:transition-opacity [&>*]:hover:opacity-100"
   >
     <p>
       <a href="http://kennyhui.dev" target="_blank" rel="noopener noreferrer">kennyhui.dev</a>
