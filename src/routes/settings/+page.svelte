@@ -31,6 +31,18 @@
     >
       Allow identical flags such as Norway, Bouvet Island, and Svalbard and Jan Mayen
     </SettingsField>
+    <SettingsFieldContainer>
+      {#snippet title()}
+        Export Stats
+      {/snippet}
+      {#snippet description()}
+        Save a copy of your statistics (settings and game state will not be preserved)
+      {/snippet}
+      <div class="flex items-center gap-1">
+        <button class="btn-sm btn h-auto">Export Stats </button>
+        <button class="btn-sm btn h-auto">Import Stats</button>
+      </div>
+    </SettingsFieldContainer>
   </div>
   <div
     class="flex max-w-md flex-wrap items-center justify-center gap-5 self-center text-center font-semibold [&>*]:opacity-50 [&>*]:transition-opacity [&>*]:hover:opacity-100"

@@ -53,3 +53,110 @@ function average(array: number[]): number {
   if (array.length === 0) return 0;
   return array.reduce((a, b) => a + b) / array.length;
 }
+
+export async function serializeSave(): Promise<string> {
+  const data: string[] = [];
+
+  data[0] = import.meta.env.PACKAGE_VERSION || "unknown_version";
+
+  // Play time [all, classic, lightning, daily]
+  data[1] = [
+    (await db.stats.get("play-time"))?.value || 0,
+    (await db.stats.get("play-time/classic"))?.value || 0,
+    (await db.stats.get("play-time/lightning"))?.value || 0,
+    (await db.stats.get("play-time/daily"))?.value || 0,
+  ].join(",");
+
+  // Classic [streak, maxStreak, history]
+  data[2] = [
+    (await db.stats.get("classic-streak"))?.value || 0,
+    (await db.stats.get("classic-max-streak"))?.value || 0,
+    compressClassicLightningHistory(await db.classic.toArray()),
+  ].join(",");
+
+  // Lightning [streak, maxStreak, history]
+  data[3] = [
+    (await db.stats.get("lightning-streak"))?.value || 0,
+    (await db.stats.get("lightning-max-streak"))?.value || 0,
+    compressClassicLightningHistory(await db.lightning.toArray()),
+  ].join(",");
+
+  // Daily [history]
+  data[4] = [compressDailyHistory(await db.daily.toArray())].join(",");
+
+  return "FLAGGLE_" + btoa(data.join("|"));
+}
+
+export function deserializeSave(save: string) {
+  const prefix = "FLAGGLE_";
+  if (!save.startsWith(prefix)) {
+    console.error("May not be a Flaggle save");
+    return;
+  }
+  save = save.substring(prefix.length);
+
+  const sections = atob(save).split("|");
+
+  console.log(`Parsed save version: ${sections[0]}`);
+
+  const playTimeParts = sections[1].split(",").map((s) => parseInt(s));
+  const playTime = {
+    all: playTimeParts[0],
+    classic: playTimeParts[1],
+    lightning: playTimeParts[2],
+    daily: playTimeParts[3],
+  };
+  const classicParts = sections[2].split(",");
+  const classic = {
+    streak: parseInt(classicParts[0]),
+    maxStreak: parseInt(classicParts[1]),
+    history: decompressClassicLightningHistory(classicParts[2]),
+  };
+  const lightningParts = sections[3].split(",");
+  const lightning = {
+    streak: parseInt(lightningParts[0]),
+    maxStreak: parseInt(lightningParts[1]),
+    history: decompressClassicLightningHistory(lightningParts[2]),
+  };
+  const daily = {
+    history: decompressDailyHistory(sections[4].split(",")[0]),
+  };
+
+  return {
+    playTime,
+    classic,
+    lightning,
+    daily,
+  };
+}
+
+function compressClassicLightningHistory(history: { win: boolean; guesses: number }[]): string {
+  return history.map((item) => `${item.win ? "" : "-"}${item.guesses}`).join(":");
+}
+
+function decompressClassicLightningHistory(
+  compressed: string,
+): { win: boolean; guesses: number }[] {
+  return compressed.split(":").map((item) => {
+    const loss = item.startsWith("-");
+    const guesses = parseInt(item.substring(loss ? 1 : 0));
+    return {
+      win: !loss,
+      guesses,
+    };
+  });
+}
+
+function compressDailyHistory(history: { date: string; guesses: number }[]): string {
+  return history.map((item) => `${item.date}+${item.guesses}`).join(":");
+}
+
+function decompressDailyHistory(compressed: string): { date: string; guesses: number }[] {
+  return compressed.split(":").map((item) => {
+    const parts = item.split("+");
+    return {
+      date: parts[0],
+      guesses: parseInt(parts[1]),
+    };
+  });
+}
