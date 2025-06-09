@@ -80,7 +80,6 @@
 
   * {
     @apply touch-manipulation;
-    overscroll-behavior: none;
   }
 
   html,
@@ -114,7 +113,6 @@
   font-style: normal;
   src: url("/fonts/icons.ttf");
 }
-
 
 @utility font-title {
   @apply font-[BigNoodleTitling] text-4xl font-normal italic;

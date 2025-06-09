@@ -29,7 +29,7 @@
   <div
     out:scale={{ start: 1.1 }}
     in:scale={{ start: 1.1 }}
-    class="fixed inset-0 z-0 flex items-center justify-center overflow-hidden"
+    class="fixed inset-0 z-10 flex items-center justify-center overflow-hidden"
   >
     <FlagBackground />
     <div class="bg-accent absolute bottom-0 left-0 z-0 h-1/5 w-full mask-t-from-0%"></div>
@@ -37,7 +37,7 @@
   <div
     in:fade
     out:fade
-    class="fixed inset-0 z-10 flex flex-col items-center justify-center gap-5 p-5"
+    class="fixed inset-0 z-20 flex flex-col items-center justify-center gap-5 p-5"
   >
     <div class="flex items-center gap-3 md:gap-5">
       <enhanced:img
@@ -78,7 +78,7 @@
     </p>
   </div>
 {:else}
-  <div class="mx-auto flex h-full w-full max-w-4xl flex-col gap-4 overflow-x-hidden p-4 pb-16">
+  <div class="mx-auto h-full w-full max-w-4xl overflow-x-hidden pb-12">
     {@render children()}
   </div>
   <Navigation />

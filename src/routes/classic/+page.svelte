@@ -140,7 +140,7 @@
     {/if}
   </div>
 </div>
-<GameFeed {items}></GameFeed>
+<GameFeed {items} />
 {#if items.length > 0 && !isGameOver}
   <button
     class="text-base-content/50 hover:text-error btn self-center font-[BigNoodleTitling] text-2xl font-normal italic transition-colors"

@@ -14,11 +14,11 @@
   let { items }: { items: Guess[] } = $props();
 </script>
 
-<div class="relative z-0 flex flex-col gap-4 overflow-auto">
+<div class="relative z-0 flex flex-col gap-4">
   {#each items as guess, i}
     <div
       class={{
-        "bg-base-200/50 rounded-box relative flex shrink-0 flex-col-reverse items-center sm:flex-row": true,
+        "bg-base-200/50 rounded-box relative flex shrink-0 flex-col-reverse max-sm:items-center sm:flex-row sm:items-stretch": true,
         "text-accent-content": guess.win,
       }}
     >
@@ -32,7 +32,7 @@
           {guess.diff ? items.length - i : "Answer"}
         </span>
       </p>
-      <div class="z-30 flex h-full w-full min-w-48 flex-1 items-end px-2.5 py-2 sm:px-3.5 sm:py-3">
+      <div class="z-30 flex w-full min-w-48 flex-1 items-end px-2.5 py-2 sm:px-3.5 sm:py-3">
         <p class="font-title w-full text-2xl leading-none">
           <span class="text-base-content/25 font-title mr-1 text-2xl leading-none sm:hidden">
             {guess.diff ? items.length - i : "Answer"}

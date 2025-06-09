@@ -121,18 +121,24 @@
   }
 </script>
 
-<h1 class="text-center font-[BigNoodleTitling] text-4xl italic">
-  Flaggle #{dailyNumber} <span class="text-base-content/50">{date}</span>
-</h1>
-{#if isGameOver || $daily?.guesses}
-  <button
-    class="btn self-center font-[BigNoodleTitling] text-2xl font-normal italic"
-    on:click={showResults}>Results</button
-  >
-{:else}
-  <GameInput on:submit={addGuess}></GameInput>
-{/if}
-<GameFeed {items}></GameFeed>
+<div class="flex h-full flex-col px-4">
+  <div class="bg-base-100 flex flex-col gap-3 py-4">
+    <h1 class="font-title text-center">
+      Flaggle <span class="text-base-content/50">#{dailyNumber}</span>
+    </h1>
+    {#if isGameOver || $daily?.guesses}
+      <button
+        class="btn self-center font-[BigNoodleTitling] text-2xl font-normal italic"
+        on:click={showResults}>Results</button
+      >
+    {:else}
+      <GameInput on:submit={addGuess}></GameInput>
+    {/if}
+  </div>
+  <div class="overflow-auto pb-4">
+    <GameFeed {items}></GameFeed>
+  </div>
+</div>
 
 <Modal title="Results" bind:this={modal} centered>
   <p>You solved today's <b>Flaggle #{dailyNumber}</b> in</p>
