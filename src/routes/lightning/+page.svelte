@@ -12,6 +12,7 @@
   import { onMount } from "svelte";
   import { settings } from "$lib/settings";
   import { fly } from "svelte/transition";
+  import GameContainer from "$lib/components/ui/game-container.svelte";
 
   let confirm: Confirm;
 
@@ -124,50 +125,48 @@
   }
 </script>
 
-{#if target}
-  <div class="flex justify-center">
-    <img
-      src="./flags/{target?.code}.png"
-      alt="Target flag"
-      class="bg-base-100/50 pointer-events-none aspect-[3/2] w-1/2 max-w-sm"
-    />
+<GameContainer>
+  {#if target}
+    <div class="flex justify-center">
+      <img
+        src="./flags/{target?.code}.png"
+        alt="Target flag"
+        class="bg-base-100/50 pointer-events-none aspect-[3/2] w-1/2 max-w-sm"
+      />
+    </div>
+  {/if}
+  <div class="flex gap-2">
+    {#if $lightningStreak > 0}
+      <div class="flex items-center px-1 text-xl">
+        <Streak value={$lightningStreak}></Streak>
+      </div>
+    {/if}
+    {#if !isGameOver}
+      <div class="flex-1">
+        <FlagInput on:submit={addGuess}></FlagInput>
+      </div>
+    {:else}
+      <p in:fly={{ duration: 500, x: -50 }} class="font-[BigNoodleTitling] text-4xl italic">
+        {target.name}
+      </p>
+    {/if}
   </div>
-{/if}
-<div class="flex gap-2">
-  {#if $lightningStreak > 0}
-    <div class="flex items-center px-1 text-xl">
-      <Streak value={$lightningStreak}></Streak>
-    </div>
+  {#if answer !== ""}
+    <p class="mx-auto">Answer: {answer}</p>
   {/if}
+  <LightningFeed {items}></LightningFeed>
   {#if !isGameOver}
-    <div class="flex-1">
-      <FlagInput on:submit={addGuess}></FlagInput>
-    </div>
+    <button
+      class="btn font-title self-center text-2xl opacity-50 transition-opacity hover:opacity-100"
+      on:click={() => {
+        confirm
+          .prompt("Are you sure you want to give up?", "This will reset your streak!", "Give Up")
+          .then(giveUp);
+      }}>Give Up</button
+    >
   {:else}
-    <p in:fly={{ duration: 500, x: -50 }} class="font-[BigNoodleTitling] text-4xl italic">
-      {target.name}
-    </p>
+    <button class="btn font-title self-center text-2xl" on:click={playAgain}> Play Again </button>
   {/if}
-</div>
-{#if answer !== ""}
-  <p class="mx-auto">Answer: {answer}</p>
-{/if}
-<LightningFeed {items}></LightningFeed>
-{#if !isGameOver}
-  <button
-    class="text-base-content/50 hover:text-error btn self-center font-[BigNoodleTitling] text-2xl italic transition-colors"
-    on:click={() => {
-      confirm
-        .prompt("Are you sure you want to give up?", "This will reset your streak!", "Give Up")
-        .then(giveUp);
-    }}>Give Up</button
-  >
-{:else}
-  <button
-    class="btn self-center font-[BigNoodleTitling] text-2xl font-normal italic"
-    on:click={playAgain}
-  >
-    Play Again
-  </button>
-{/if}
+</GameContainer>
+
 <Confirm bind:this={confirm}></Confirm>
