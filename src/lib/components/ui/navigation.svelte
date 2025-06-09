@@ -13,8 +13,8 @@
 </script>
 
 <nav
-  in:fly={{ y: 48, duration: 300 }}
-  out:fly={{ y: 48, duration: 300 }}
+  in:fly={{ y: 48, duration: 500, delay: 300 }}
+  out:fly={{ y: 48, duration: 500 }}
   class="bg-base-200 fixed bottom-0 left-0 z-50 flex h-12 w-full gap-1 p-2 shadow-lg"
 >
   <a

@@ -33,7 +33,7 @@
 </div>
 
 <style>
-  @reference "../../app.css";
+  @reference "../../../app.css";
 
   .correct {
     @apply bg-primary text-primary-content;

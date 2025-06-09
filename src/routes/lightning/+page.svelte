@@ -125,11 +125,11 @@
 </script>
 
 {#if target}
-  <div class="flex h-[20vw] max-h-48 min-h-20 justify-center">
+  <div class="flex justify-center">
     <img
       src="./flags/{target?.code}.png"
       alt="Target flag"
-      class="bg-base-100/50 pointer-events-none aspect-[3/2]"
+      class="bg-base-100/50 pointer-events-none aspect-[3/2] w-1/2 max-w-sm"
     />
   </div>
 {/if}
