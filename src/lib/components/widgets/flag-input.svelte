@@ -153,7 +153,7 @@
     }}
   />
   <button
-    class="btn btn-square hover:bg-base-300 btn-sm text-lg"
+    class="btn btn-square btn-ghost btn-sm text-lg"
     onclick={submitQuery}
     aria-label="submit guess"
   >

@@ -17,11 +17,7 @@
   out:fly={{ y: 48, duration: 500 }}
   class="bg-base-200 fixed bottom-0 left-0 z-50 flex h-12 w-full gap-1 p-2 shadow-lg"
 >
-  <a
-    href="/"
-    class="btn btn-sm hover:bg-base-300 btn-square text-lg transition-colors"
-    aria-label="Home"
-  >
+  <a href="/" class="btn btn-sm btn-ghost btn-square text-lg transition-colors" aria-label="Home">
     <LucideArrowLeft />
   </a>
   <div class="flex flex-1 items-center justify-center">
@@ -30,7 +26,7 @@
       <a
         href="/{mode.path}"
         class={{
-          "btn btn-sm hover:bg-base-300 -mx-1 font-[BigNoodleTitling] text-2xl italic transition-colors hover:z-10": true,
+          "btn btn-sm btn-ghost -mx-1 font-[BigNoodleTitling] text-2xl italic transition-colors hover:z-10": true,
           "text-accent": active,
         }}
       >
@@ -40,7 +36,7 @@
   </div>
   <a
     href="/settings"
-    class="btn btn-sm hover:bg-base-300 btn-square text-lg transition-colors"
+    class="btn btn-sm btn-ghost btn-square text-lg transition-colors"
     aria-label="Settings"
   >
     <LucideSettings />
