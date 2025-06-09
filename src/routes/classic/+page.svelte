@@ -2,8 +2,8 @@
   import { streak } from "$lib/stats";
   import Streak from "$lib/components/widgets/streak.svelte";
 
-  import GameInput from "$lib/components/widgets/game-input.svelte";
-  import GameFeed from "$lib/components/widgets/game-feed.svelte";
+  import GameInput from "$lib/components/widgets/flag-input.svelte";
+  import GameFeed from "$lib/components/widgets/classic-feed.svelte";
   import Confirm from "$lib/components/modal/confirm.svelte";
 
   import { generateDiff } from "$lib/diff";

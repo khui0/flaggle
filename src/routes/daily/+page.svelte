@@ -1,6 +1,6 @@
 <script lang="ts">
-  import GameInput from "$lib/components/widgets/game-input.svelte";
-  import GameFeed from "$lib/components/widgets/game-feed.svelte";
+  import GameInput from "$lib/components/widgets/flag-input.svelte";
+  import GameFeed from "$lib/components/widgets/classic-feed.svelte";
   import Modal from "$lib/components/modal/modal.svelte";
 
   import { generateDiff } from "$lib/diff";
