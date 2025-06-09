@@ -9,6 +9,7 @@
   } = $props();
 
   let ready: boolean = false;
+  let timeout: number = 0;
   let show: boolean = $state(false);
 
   const audio = new Howl({
@@ -33,12 +34,7 @@
       return;
     }
     if (colors.has(value)) {
-      show = true;
-      setTimeout(() => {
-        show = false;
-      }, 2000);
-      audio.stop();
-      audio.play();
+      triggerBigStreak();
     }
   });
 
@@ -51,12 +47,25 @@
       return result;
     })(),
   );
+
+  function triggerBigStreak() {
+    show = true;
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      show = false;
+    }, 2000);
+    audio.stop();
+    audio.play();
+  }
 </script>
 
-<p class="z-10 flex gap-[0.25em] text-3xl whitespace-nowrap {colorClassName}">
+<button
+  ondblclick={triggerBigStreak}
+  class="z-10 flex cursor-pointer gap-[0.25em] text-3xl whitespace-nowrap {colorClassName}"
+>
   <span class="font-title">{value.toLocaleString()} </span>
   <span class="font-[Icons]" aria-hidden="true">A</span>
-</p>
+</button>
 
 {#if show}
   <div class="pointer-events-none fixed inset-0 z-50 flex items-center justify-center">
