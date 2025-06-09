@@ -2,6 +2,13 @@ import { db } from "$lib/db";
 import dayjs from "dayjs";
 import { liveQuery } from "dexie";
 
+export const playTime = {
+  all: liveQuery(() => db.stats.get("play-time").then((v) => v?.value || 0)),
+  daily: liveQuery(() => db.stats.get("play-time/daily").then((v) => v?.value || 0)),
+  classic: liveQuery(() => db.stats.get("play-time/classic").then((v) => v?.value || 0)),
+  lightning: liveQuery(() => db.stats.get("play-time/lightning").then((v) => v?.value || 0)),
+};
+
 export const classicStats = {
   streak: liveQuery(() => db.stats.get("classic-streak").then((v) => v?.value || 0)),
   maxStreak: liveQuery(() => db.stats.get("classic-max-streak").then((v) => v?.value || 0)),

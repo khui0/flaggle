@@ -15,12 +15,26 @@
   import LucideSettings from "~icons/lucide/settings";
   import LucideTrophy from "~icons/lucide/trophy";
   import LucideZap from "~icons/lucide/zap";
+  import { db } from "$lib/db";
+  import { onMount } from "svelte";
 
   let { children } = $props();
 
   $effect(() => {
     localStorage.settings = JSON.stringify(settings.current);
     console.log("settings updated");
+  });
+
+  onMount(() => {
+    setInterval(async () => {
+      const all = await db.stats.get("play-time").then((v) => v?.value || 0);
+      db.stats.put({ name: "play-time", value: all + 1 });
+
+      const current = await db.stats
+        .get("play-time" + page.url.pathname)
+        .then((v) => v?.value || 0);
+      db.stats.put({ name: "play-time" + page.url.pathname, value: current + 1 });
+    }, 60000);
   });
 </script>
 

@@ -5,11 +5,28 @@
   import LucideZap from "~icons/lucide/zap";
   import StatsContainer from "./stats-container.svelte";
   import StatsItem from "./stats-item.svelte";
-  import { classicStats, dailyStats, lightningStats } from "$lib/stats";
+  import LucideTimer from "~icons/lucide/timer";
+  import { classicStats, dailyStats, lightningStats, playTime } from "$lib/stats";
 
   function initBaseObject<T extends Record<string, any>>(obj: T): Record<keyof T, number> {
     return Object.fromEntries(Object.keys(obj).map((key) => [key, 0])) as Record<keyof T, number>;
   }
+
+  function minutesToString(minutes: number) {
+    if (minutes >= 120) {
+      const hours = (minutes / 60).toFixed(1);
+      return hours + " hours";
+    }
+    return minutes + " " + (minutes === 1 ? "minute" : "minutes");
+  }
+
+  let playTimeCalculated = $state(initBaseObject(playTime));
+
+  Object.entries(playTime).forEach(([stat, observable]) => {
+    observable.subscribe((value) => {
+      playTimeCalculated[stat as keyof typeof playTime] = value;
+    });
+  });
 
   let daily = $state(initBaseObject(dailyStats));
 
@@ -41,6 +58,20 @@
     Statistics
   {/snippet}
   <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+    <div class="sm:col-span-2">
+      <StatsContainer>
+        {#snippet icon()}
+          <LucideTimer />
+        {/snippet}
+        {#snippet title()}
+          Play Time
+        {/snippet}
+        <StatsItem label="Total">{minutesToString(playTimeCalculated.all)}</StatsItem>
+        <StatsItem label="Daily">{minutesToString(playTimeCalculated.daily)}</StatsItem>
+        <StatsItem label="Classic">{minutesToString(playTimeCalculated.classic)}</StatsItem>
+        <StatsItem label="Lightning">{minutesToString(playTimeCalculated.lightning)}</StatsItem>
+      </StatsContainer>
+    </div>
     <div class="sm:col-span-2">
       <StatsContainer>
         {#snippet icon()}
