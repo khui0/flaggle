@@ -1,7 +1,6 @@
 <script lang="ts">
   import sound from "$lib/assets/sounds/hit.mp3";
   import { Howl } from "howler";
-  import { onMount } from "svelte";
 
   let {
     value = 0,
