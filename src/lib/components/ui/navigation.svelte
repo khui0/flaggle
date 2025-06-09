@@ -26,7 +26,7 @@
       <a
         href="/{mode.path}"
         class={{
-          "btn btn-sm btn-ghost -mx-1 font-[BigNoodleTitling] text-2xl italic transition-colors hover:z-10": true,
+          "btn btn-sm btn-ghost font-title -mx-1 text-2xl transition-colors hover:z-10": true,
           "text-accent": active,
         }}
       >

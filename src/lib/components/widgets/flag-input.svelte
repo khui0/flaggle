@@ -135,7 +135,7 @@
     bind:value={query}
     bind:this={input}
     type="text"
-    class="min-w-0 flex-1 bg-transparent font-[BigNoodleTitling] text-2xl italic"
+    class="font-title min-w-0 flex-1 bg-transparent text-2xl"
     placeholder="Guess a flag!"
     onkeydown={(e) => {
       if (e.key === "Enter") {
