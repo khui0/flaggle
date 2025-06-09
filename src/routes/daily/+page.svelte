@@ -48,7 +48,7 @@
   const dailyFlaggleNumber = dayjs().diff(dayjs("2024-06-06"), "day") + 1;
   const dailyFlaggleDate = $derived(dayjs().format("YYYY-MM-DD"));
   const shareString = $derived(
-    `🏁 Flaggle #${dailyFlaggleNumber} ${dayjs().format("l")} in ${pluralize("guess", $previous?.guesses || gameState.guesses.length, true)}! 👉 https://flaggle.kennyhui.dev/daily`,
+    `🏁 Flaggle #${dailyFlaggleNumber} ${dayjs().format("dddd, MMMM D")} in ${pluralize("guess", $previous?.guesses || gameState.guesses.length, true)}! 👉 https://flaggle.kennyhui.dev/daily`,
   );
 
   let solved: boolean = $state(false);
