@@ -35,16 +35,18 @@
   <div
     class="flex flex-wrap items-center justify-center gap-5 self-center font-semibold [&>*]:opacity-50 [&>*]:transition-opacity [&>*]:hover:opacity-100"
   >
+    <p>&copy; 2025 Kenny Hui</p>
     <p>Flaggle {import.meta.env.PACKAGE_VERSION}</p>
+    <a href="http://kennyhui.dev" target="_blank" rel="noopener noreferrer">kennyhui.dev</a>
     <a
       href="https://github.com/khui0/flaggle"
       target="_blank"
       rel="noopener noreferrer"
       title="GitHub"
-      class="text-lg"
+      class="inline-flex items-center gap-1"
     >
-      <BiGithub />
+      <span><BiGithub /></span>
+      Source
     </a>
-    <a href="http://" target="_blank" rel="noopener noreferrer"> kennyhui.dev </a>
   </div>
 </GameContainer>
