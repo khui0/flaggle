@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { settings } from "$lib/settings";
+  import { settings } from "$lib/settings.svelte";
 
   interface Country {
     code: string;

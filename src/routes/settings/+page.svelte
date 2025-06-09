@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { settings } from "$lib/settings";
+  import { settings } from "$lib/settings.svelte";
 
   import SettingsField from "./settings-field.svelte";
   import Confirm from "$lib/components/modal/confirm.svelte";

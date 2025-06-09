@@ -7,7 +7,7 @@
   import { generateDiff } from "$lib/diff";
   import { db } from "$lib/db";
   import { onMount } from "svelte";
-  import { settings } from "$lib/settings";
+  import { settings } from "$lib/settings.svelte";
   import { fly } from "svelte/transition";
   import GameContainer from "$lib/components/ui/game-container.svelte";
   import { flags, getRandomFlag, type Flag } from "$lib/content";

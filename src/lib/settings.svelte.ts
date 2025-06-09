@@ -7,9 +7,7 @@ interface Settings {
 
 const storedSettings = browser && localStorage.getItem("settings");
 
-const defaultSettings: Settings = {
-  theme: "auto",
-};
+const defaultSettings: Settings = { theme: "auto" };
 
 // Initialize store with default settings
 export const settings: Writable<Settings> = writable(

@@ -7,7 +7,7 @@
   import Streak from "$lib/components/widgets/streak.svelte";
   import type { Flag } from "$lib/content";
   import { db } from "$lib/db";
-  import { settings } from "$lib/settings";
+  import { settings } from "$lib/settings.svelte";
   import { lightningStreak } from "$lib/stats";
   import { onMount } from "svelte";
   import { fly } from "svelte/transition";
