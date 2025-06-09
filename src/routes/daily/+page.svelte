@@ -1,6 +1,6 @@
 <script lang="ts">
-  import GameInput from "$lib/components/widgets/flag-input.svelte";
-  import GameFeed from "$lib/components/widgets/classic-feed.svelte";
+  import FlagInput from "$lib/components/widgets/flag-input.svelte";
+  import ClassicFeed from "$lib/components/widgets/classic-feed.svelte";
   import Modal from "$lib/components/modal/modal.svelte";
 
   import { generateDiff } from "$lib/diff";
@@ -132,11 +132,11 @@
         on:click={showResults}>Results</button
       >
     {:else}
-      <GameInput on:submit={addGuess}></GameInput>
+      <FlagInput on:submit={addGuess}></FlagInput>
     {/if}
   </div>
   <div class="overflow-auto pb-4">
-    <GameFeed {items}></GameFeed>
+    <ClassicFeed {items}></ClassicFeed>
   </div>
 </div>
 

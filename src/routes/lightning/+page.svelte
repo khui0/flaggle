@@ -2,7 +2,7 @@
   import { lightningStreak } from "$lib/stats";
   import Streak from "$lib/components/widgets/streak.svelte";
 
-  import GameInput from "$lib/components/widgets/flag-input.svelte";
+  import FlagInput from "$lib/components/widgets/flag-input.svelte";
   import LightningFeed from "$lib/components/widgets/lightning-feed.svelte";
   import Confirm from "$lib/components/modal/confirm.svelte";
 
@@ -141,7 +141,7 @@
   {/if}
   {#if !isGameOver}
     <div class="flex-1">
-      <GameInput on:submit={addGuess}></GameInput>
+      <FlagInput on:submit={addGuess}></FlagInput>
     </div>
   {:else}
     <p in:fly={{ duration: 500, x: -50 }} class="font-[BigNoodleTitling] text-4xl italic">
