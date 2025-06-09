@@ -32,7 +32,7 @@
           {guess.diff ? items.length - i : "Answer"}
         </span>
       </p>
-      <div class="z-30 flex w-full min-w-48 flex-1 items-end px-2.5 py-2 sm:px-3.5 sm:py-3">
+      <div class="z-30 flex w-full flex-1 items-end px-2.5 py-2 sm:min-w-48 sm:px-3.5 sm:py-3">
         <p class="font-title w-full text-2xl leading-none">
           <span class="text-base-content/25 font-title mr-1 text-2xl leading-none sm:hidden">
             {guess.diff ? items.length - i : "Answer"}
@@ -40,15 +40,15 @@
           {guess.name}
         </p>
       </div>
-      <div class="z-30 grid grid-cols-2">
+      <div class="z-30 grid w-full grid-cols-2">
         <img
           src="./flags/{guess.code}.png"
           alt={guess.name}
-          class="bg-base-100/50 ml-auto aspect-[3/2] h-full max-h-48"
+          class="bg-base-100/50 ml-auto aspect-[3/2] max-h-48"
         />
         <div
           class={{
-            "z-30 aspect-[3/2] h-full max-h-48": true,
+            "z-30 aspect-[3/2] max-h-48": true,
             "bg-[#1a1a1a]": settings.current.diffDarkBg === "true",
             "bg-base-200": settings.current.diffDarkBg !== "true",
           }}
