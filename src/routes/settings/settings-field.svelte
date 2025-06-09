@@ -5,7 +5,7 @@
   type FieldType = "checkbox" | "toggle" | "select" | "button" | "link";
 
   let {
-    title,
+    title: titleText,
     type,
     value = $bindable(),
     options,
@@ -34,7 +34,7 @@
 
 <SettingsFieldContainer>
   {#snippet title()}
-    {title}
+    {titleText}
   {/snippet}
   {#snippet description()}
     {@render children()}
