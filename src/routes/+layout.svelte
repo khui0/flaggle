@@ -4,10 +4,13 @@
   import "../app.css";
 
   import { page } from "$app/state";
+  import AssetLoader from "$lib/components/asset-loader.svelte";
   import FlagBackground from "$lib/components/ui/flag-background.svelte";
   import MenuButton from "$lib/components/ui/menu-button.svelte";
   import Navigation from "$lib/components/ui/navigation.svelte";
+  import { db } from "$lib/db";
   import { settings } from "$lib/settings.svelte";
+  import { onMount } from "svelte";
   import { fade, scale } from "svelte/transition";
   import LucideBookOpen from "~icons/lucide/book-open";
   import LucideCalendarDays from "~icons/lucide/calendar-days";
@@ -15,8 +18,6 @@
   import LucideSettings from "~icons/lucide/settings";
   import LucideTrophy from "~icons/lucide/trophy";
   import LucideZap from "~icons/lucide/zap";
-  import { db } from "$lib/db";
-  import { onMount } from "svelte";
 
   let { children } = $props();
 
@@ -25,7 +26,7 @@
     console.log("settings updated");
   });
 
-  onMount(() => {
+  onMount(async () => {
     setInterval(async () => {
       const all = await db.stats.get("play-time").then((v) => v?.value || 0);
       db.stats.put({ name: "play-time", value: all + 1 });
@@ -107,3 +108,5 @@
   </div>
   <Navigation />
 {/if}
+
+<AssetLoader />

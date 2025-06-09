@@ -22,11 +22,17 @@ export interface LightningResult extends Result {
   guesses: number;
 }
 
+export interface FlagImageData {
+  code: string;
+  blob: Blob;
+}
+
 export class Database extends Dexie {
   stats!: Table<Stat>;
   daily!: Table<DailyResult>;
   classic!: Table<ClassicResult>;
   lightning!: Table<LightningResult>;
+  assets!: Table<FlagImageData>;
 
   constructor() {
     super("database");
@@ -35,6 +41,7 @@ export class Database extends Dexie {
       daily: "date, guesses",
       classic: "++, win, guesses",
       lightning: "++, win, guesses",
+      assets: "++code",
     });
   }
 }
