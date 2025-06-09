@@ -1,16 +1,13 @@
+import { fetchImageURL } from "./content";
+
 interface Country {
   code: string;
   name: string;
 }
 
 export async function generateDiff(current: Country, target: Country) {
-  const result1 = await fetch(`./flags/${target.code}.png`);
-  const blob1 = await result1.blob();
-  const targetImage = await loadImage(window.URL.createObjectURL(blob1));
-
-  const result2 = await fetch(`./flags/${current.code}.png`);
-  const blob2 = await result2.blob();
-  const currentImage = await loadImage(window.URL.createObjectURL(blob2));
+  const currentImage = await loadImage(await fetchImageURL(current.code));
+  const targetImage = await loadImage(await fetchImageURL(target.code));
 
   const data = calculateDiff(getImageData(currentImage), getImageData(targetImage));
 

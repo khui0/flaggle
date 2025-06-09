@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { fetchImageURL } from "$lib/content";
+
   interface Guess {
     win: boolean;
     name: string;
@@ -18,11 +20,9 @@
         class:incorrect={!guess?.win}
       >
         {#if guess.code}
-          <img
-            src="./flags/{guess.code}.png"
-            alt={guess.name}
-            class="bg-base-100/50 aspect-[3/2] h-full"
-          />
+          {#await fetchImageURL(guess.code) then image}
+            <img src={image} alt={guess.name} class="bg-base-100/50 aspect-[3/2] h-full" />
+          {/await}
         {/if}
         <p>{guess.name}</p>
       </div>

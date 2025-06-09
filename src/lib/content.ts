@@ -1,4 +1,5 @@
 import data from "$lib/assets/flags/data.json";
+import { db } from "./db";
 import { settings } from "./settings.svelte";
 
 export interface Flag {
@@ -19,4 +20,10 @@ export function getRandomFlag(): Flag {
   const allowDuplicates = settings.current.allowDuplicates === "true";
   const filtered = allowDuplicates ? flags : flags.filter((flag) => !flag.duplicate);
   return filtered[Math.floor(Math.random() * filtered.length)];
+}
+
+export async function fetchImageURL(code: string): Promise<string> {
+  const blob =
+    (await db.assets.get(code))?.blob || (await (await fetch(`/flags/${code}.png`)).blob());
+  return window.URL.createObjectURL(blob);
 }

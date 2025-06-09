@@ -5,7 +5,7 @@
   import FlagInput from "$lib/components/widgets/flag-input.svelte";
   import LightningFeed from "$lib/components/widgets/lightning-feed.svelte";
   import Streak from "$lib/components/widgets/streak.svelte";
-  import { getRandomFlag, type Flag } from "$lib/content";
+  import { fetchImageURL, getRandomFlag, type Flag } from "$lib/content";
   import { db } from "$lib/db";
   import { lightningStats } from "$lib/stats";
   import { onMount } from "svelte";
@@ -119,11 +119,13 @@
 <GameContainer>
   {#if gameState.target !== null}
     <div class="flex justify-center">
-      <img
-        src="./flags/{gameState.target.code}.png"
-        alt="Target flag"
-        class="bg-base-100/50 pointer-events-none aspect-[3/2] w-1/2 max-w-sm"
-      />
+      {#await fetchImageURL(gameState.target.code) then image}
+        <img
+          src={image}
+          alt="Target flag"
+          class="bg-base-100/50 pointer-events-none aspect-[3/2] w-1/2 max-w-sm"
+        />
+      {/await}
     </div>
   {/if}
   <div class="flex gap-2">

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { fetchImageURL } from "$lib/content";
   import { settings } from "$lib/settings.svelte";
 
   interface Country {
@@ -41,11 +42,11 @@
         </p>
       </div>
       <div class="z-30 grid w-full grid-cols-2">
-        <img
-          src="./flags/{guess.code}.png"
-          alt={guess.name}
-          class="bg-base-100/50 ml-auto aspect-[3/2] max-h-48"
-        />
+        <div class="bg-base-200 ml-auto aspect-[3/2] max-h-48">
+          {#await fetchImageURL(guess.code) then image}
+            <img src={image} alt={guess.name} />
+          {/await}
+        </div>
         <div
           class={{
             "z-30 aspect-[3/2] max-h-48": true,
