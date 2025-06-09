@@ -35,7 +35,7 @@
       </button>
     </form>
     <div class="mx-1 flex flex-col gap-2">
-      <h1 class="font-title">{title}</h1>
+      <h1 class="font-title mr-12">{title}</h1>
       {@render children()}
     </div>
   </div>
