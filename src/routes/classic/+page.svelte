@@ -1,34 +1,27 @@
 <script lang="ts">
   import { streak } from "$lib/stats";
   import Streak from "$lib/components/widgets/streak.svelte";
-
   import FlagInput from "$lib/components/widgets/flag-input.svelte";
   import ClassicFeed from "$lib/components/widgets/classic-feed.svelte";
   import Confirm from "$lib/components/modal/confirm.svelte";
-
   import { generateDiff } from "$lib/diff";
   import data from "$lib/assets/flags/data.json";
-
   import { db } from "$lib/db";
   import { onMount } from "svelte";
   import { settings } from "$lib/settings";
   import { fly } from "svelte/transition";
   import GameContainer from "$lib/components/ui/game-container.svelte";
+  import type { Flag } from "$lib/content";
 
-  let confirm: Confirm;
-
-  interface Country {
-    code: string;
-    name: string;
-  }
-
-  interface Guess extends Country {
+  interface Guess extends Flag {
     diff?: string;
     win?: boolean;
   }
 
+  let confirm: Confirm;
+
   // Game state
-  let target: Country;
+  let target: Flag;
   let items: Guess[] = [];
   let isGameOver: boolean = false;
 
@@ -48,7 +41,7 @@
 
   async function addGuess(e: CustomEvent) {
     if (isGameOver) return;
-    const country: Country = e.detail;
+    const country: Flag = e.detail;
     const diff = await generateDiff(country, target);
     const win = checkWin(country);
     const guess: Guess = {
@@ -79,14 +72,14 @@
     }
   }
 
-  function checkWin(guess: Country): boolean {
+  function checkWin(guess: Flag): boolean {
     if (target.code === guess.code) {
       return true;
     }
     return false;
   }
 
-  function getRandomTarget(): Country {
+  function getRandomTarget(): Flag {
     const flags =
       $settings?.identicalFlags === "true" ? data : data.filter((item) => !item.duplicate);
     const max = flags.length;

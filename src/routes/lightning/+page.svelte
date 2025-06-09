@@ -1,25 +1,18 @@
 <script lang="ts">
-  import { lightningStreak } from "$lib/stats";
-  import Streak from "$lib/components/widgets/streak.svelte";
-
+  import data from "$lib/assets/flags/data.json";
+  import Confirm from "$lib/components/modal/confirm.svelte";
+  import GameContainer from "$lib/components/ui/game-container.svelte";
   import FlagInput from "$lib/components/widgets/flag-input.svelte";
   import LightningFeed from "$lib/components/widgets/lightning-feed.svelte";
-  import Confirm from "$lib/components/modal/confirm.svelte";
-
-  import data from "$lib/assets/flags/data.json";
-
+  import Streak from "$lib/components/widgets/streak.svelte";
+  import type { Flag } from "$lib/content";
   import { db } from "$lib/db";
-  import { onMount } from "svelte";
   import { settings } from "$lib/settings";
+  import { lightningStreak } from "$lib/stats";
+  import { onMount } from "svelte";
   import { fly } from "svelte/transition";
-  import GameContainer from "$lib/components/ui/game-container.svelte";
 
   let confirm: Confirm;
-
-  interface Country {
-    code: string;
-    name: string;
-  }
 
   interface Guess {
     win: boolean;
@@ -28,7 +21,7 @@
   }
 
   // Game state
-  let target: Country;
+  let target: Flag;
   let items: Guess[] = [];
   let isGameOver: boolean = false;
   let answer: string = "";
@@ -49,7 +42,7 @@
 
   async function addGuess(e: CustomEvent) {
     if (isGameOver) return;
-    const country: Country = e.detail;
+    const country: Flag = e.detail;
     const win = checkWin(country);
     const guess: Guess = {
       win: win,
@@ -82,14 +75,14 @@
     }
   }
 
-  function checkWin(guess: Country): boolean {
+  function checkWin(guess: Flag): boolean {
     if (target.code === guess.code) {
       return true;
     }
     return false;
   }
 
-  function getRandomTarget(): Country {
+  function getRandomTarget(): Flag {
     const flags =
       $settings?.identicalFlags === "true" ? data : data.filter((item) => !item.duplicate);
     const max = flags.length;

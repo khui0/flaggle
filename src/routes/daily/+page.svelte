@@ -4,6 +4,7 @@
   import GameContainer from "$lib/components/ui/game-container.svelte";
   import ClassicFeed from "$lib/components/widgets/classic-feed.svelte";
   import FlagInput from "$lib/components/widgets/flag-input.svelte";
+  import type { Flag } from "$lib/content";
   import { getDeltaDay } from "$lib/date";
   import { db } from "$lib/db";
   import { generateDiff } from "$lib/diff";
@@ -13,12 +14,7 @@
   import pluralize from "pluralize";
   import { onMount } from "svelte";
 
-  interface Country {
-    code: string;
-    name: string;
-  }
-
-  interface Guess extends Country {
+  interface Guess extends Flag {
     diff?: string;
     win?: boolean;
   }
@@ -34,7 +30,7 @@
   let ISODate: string;
 
   // Game state
-  let target: Country | null = $state(null);
+  let target: Flag | null = $state(null);
   let items: Guess[] = $state([]);
   let isGameOver: boolean = $state(false);
   let guesses: number = $state(0);
@@ -77,7 +73,7 @@
   async function addGuess(e: CustomEvent) {
     if (isGameOver) return;
     if (target === null) return;
-    const country: Country = e.detail;
+    const country: Flag = e.detail;
     const diff = await generateDiff(country, target);
     const win = checkWin(country);
     const guess: Guess = {
@@ -100,7 +96,7 @@
     localStorage.setItem("daily-prev-guessed-date", ISODate);
   }
 
-  function checkWin(guess: Country): boolean {
+  function checkWin(guess: Flag): boolean {
     if (target?.code === guess.code) {
       isGameOver = true;
       return true;
