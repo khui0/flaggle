@@ -15,7 +15,7 @@
 <div class="relative z-0 flex h-full flex-col overflow-auto px-4">
   {#if title || header}
     <div
-      class="from-base-100 sticky top-0 z-10 mx-auto flex w-full max-w-4xl flex-col gap-3 bg-gradient-to-b to-transparent py-4 py-4"
+      class="from-base-100 sticky top-0 z-10 mx-auto flex w-full max-w-4xl flex-col gap-3 bg-gradient-to-b to-transparent py-4"
     >
       {#if title}
         <h1 class="font-title text-center">
