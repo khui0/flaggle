@@ -1,16 +1,16 @@
 <script lang="ts">
-  import { streak } from "$lib/stats";
-  import Streak from "$lib/components/widgets/streak.svelte";
-  import FlagInput from "$lib/components/widgets/flag-input.svelte";
-  import ClassicFeed from "$lib/components/widgets/classic-feed.svelte";
+  import { browser } from "$app/environment";
   import Confirm from "$lib/components/modal/confirm.svelte";
-  import { generateDiff } from "$lib/diff";
-  import { db } from "$lib/db";
-  import { onMount } from "svelte";
-  import { settings } from "$lib/settings.svelte";
-  import { fly } from "svelte/transition";
   import GameContainer from "$lib/components/ui/game-container.svelte";
-  import { flags, getRandomFlag, type Flag } from "$lib/content";
+  import ClassicFeed from "$lib/components/widgets/classic-feed.svelte";
+  import FlagInput from "$lib/components/widgets/flag-input.svelte";
+  import Streak from "$lib/components/widgets/streak.svelte";
+  import { getRandomFlag, type Flag } from "$lib/content";
+  import { db } from "$lib/db";
+  import { generateDiff } from "$lib/diff";
+  import { streak } from "$lib/stats";
+  import { onMount } from "svelte";
+  import { fly } from "svelte/transition";
 
   interface Guess extends Flag {
     diff?: string;
@@ -19,19 +19,38 @@
 
   let confirm: Confirm;
 
-  // Game state
-  let target: Flag;
-  let items: Guess[] = [];
-  let isGameOver: boolean = false;
+  interface GameState {
+    target: Flag | null;
+    guesses: Guess[];
+    isGameOver: boolean;
+  }
+
+  const defaultGameState: GameState = {
+    target: null,
+    guesses: [],
+    isGameOver: false,
+  };
+
+  const storedGameState: GameState =
+    browser && JSON.parse(localStorage.getItem("classic-game-state") || "{}");
+
+  let gameState: GameState = $state(Object.assign({}, defaultGameState, storedGameState));
+
+  $effect(() => {
+    localStorage.setItem("classic-game-state", JSON.stringify(gameState));
+  });
 
   onMount(() => {
-    const previous = parseInt(window.localStorage.getItem("unfinished-flaggle-classic") || "");
-    target = previous ? flags[previous] : getRandomFlag();
+    if (gameState.target === null) {
+      playAgain();
+    }
   });
 
   async function addGuess(flag: Flag) {
-    if (isGameOver) return;
-    const diff = await generateDiff(flag, target);
+    if (gameState.target === null) return;
+    if (gameState.isGameOver) return;
+
+    const diff = await generateDiff(flag, gameState.target);
     const win = checkWin(flag);
     const guess: Guess = {
       code: flag.code,
@@ -39,12 +58,13 @@
       diff: diff,
       win: win,
     };
-    items = [guess, ...items];
+    gameState.guesses = [guess, ...gameState.guesses];
+
     if (win) {
       // Record game as win
       db.classic.add({
         win,
-        guesses: items.length,
+        guesses: gameState.guesses.length,
       });
       // Increment streak
       const currentStreak = (await db.stats.get("streak"))?.value || 0;
@@ -57,46 +77,36 @@
       // Remove unfinished game state
       window.localStorage.removeItem("unfinished-flaggle-classic");
       // Mark game as over
-      isGameOver = true;
+      gameState.isGameOver = true;
     }
   }
 
   function checkWin(guess: Flag): boolean {
-    if (target.code === guess.code) {
+    if (gameState.target === null) return false;
+    if (gameState.target.code === guess.code) {
       return true;
     }
     return false;
   }
 
   function playAgain() {
-    target = getRandomFlag();
-    items = [];
-    isGameOver = false;
+    gameState = Object.assign({}, defaultGameState);
+    gameState.target = getRandomFlag();
   }
 
   function giveUp() {
-    isGameOver = true;
-    // Display correct answer
-    const guess: Guess = {
-      code: target.code,
-      name: target.name,
-    };
-    // Record game as loss
-    db.classic.add({
-      win: false,
-      guesses: items.length,
-    });
+    if (gameState.target === null) return;
     // Reset streak to 0
     db.stats.put({ name: "streak", value: 0 });
-    items = [guess, ...items];
-    // Remove unfinished game state
-    window.localStorage.removeItem("unfinished-flaggle-classic");
+    // Update state
+    gameState.isGameOver = true;
+    gameState.guesses = [gameState.target, ...gameState.guesses];
   }
 </script>
 
 <svelte:document
   onkeydown={(e) => {
-    if (e.key === "Enter" && isGameOver) {
+    if (e.key === "Enter" && gameState.isGameOver) {
       e.preventDefault();
       playAgain();
     }
@@ -112,19 +122,19 @@
         </div>
       {/if}
       <div class="flex flex-1 items-center justify-between">
-        {#if !isGameOver}
+        {#if !gameState.isGameOver}
           <FlagInput onsubmit={addGuess}></FlagInput>
         {:else}
           <p in:fly={{ duration: 500, x: -50 }} class="font-[BigNoodleTitling] text-4xl italic">
-            {target.name}
+            {gameState.target?.name}
           </p>
           <button class="btn font-title text-2xl" onclick={playAgain}> Play Again </button>
         {/if}
       </div>
     </div>
   {/snippet}
-  <ClassicFeed {items} />
-  {#if items.length > 0 && !isGameOver}
+  <ClassicFeed items={gameState.guesses} />
+  {#if gameState.guesses.length > 0 && !gameState.isGameOver}
     <button
       class="btn font-title self-center text-2xl opacity-50 transition-opacity hover:opacity-100"
       onclick={() => {
