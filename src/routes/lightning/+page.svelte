@@ -151,14 +151,20 @@
     <button
       class="btn font-title self-center text-2xl opacity-50 transition-opacity hover:opacity-100"
       on:click={() => {
-        confirm
-          .prompt("Are you sure you want to give up?", "This will reset your streak!", "Give Up")
-          .then(giveUp);
-      }}>Give Up</button
+        confirm.prompt();
+      }}
     >
+      Give Up
+    </button>
   {:else}
     <button class="btn font-title self-center text-2xl" on:click={playAgain}> Play Again </button>
   {/if}
 </GameContainer>
 
-<Confirm bind:this={confirm}></Confirm>
+<Confirm
+  bind:this={confirm}
+  title="Are you sure you want to give up?"
+  body="This will reset your streak!"
+  action="Give Up"
+  onaccept={giveUp}
+/>

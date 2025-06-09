@@ -118,7 +118,7 @@
           <p in:fly={{ duration: 500, x: -50 }} class="font-[BigNoodleTitling] text-4xl italic">
             {target.name}
           </p>
-          <button class="btn font-title text-2xl" on:click={playAgain}> Play Again </button>
+          <button class="btn font-title text-2xl" onclick={playAgain}> Play Again </button>
         {/if}
       </div>
     </div>
@@ -127,7 +127,7 @@
   {#if items.length > 0 && !isGameOver}
     <button
       class="btn font-title self-center text-2xl opacity-50 transition-opacity hover:opacity-100"
-      on:click={() => {
+      onclick={() => {
         confirm.prompt();
       }}
     >
@@ -142,4 +142,4 @@
   body="This will reset your streak!"
   action="Give Up"
   onaccept={giveUp}
-></Confirm>
+/>
