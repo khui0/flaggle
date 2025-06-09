@@ -11,37 +11,53 @@
     win?: boolean;
   }
 
-  export let items: Guess[] = [];
+  let { items }: { items: Guess[] } = $props();
 </script>
 
-<div class="flex flex-col gap-4 overflow-auto">
+<div class="relative z-0 flex flex-col gap-4 overflow-auto">
   {#each items as guess, i}
     <div
-      class="bg-base-200/50 rounded-box relative flex h-[20vw] max-h-48 min-h-20 items-end rounded-r-none {guess.win
-        ? 'from-accent via-base-200 to-base-200 bg-gradient-to-r'
-        : ''}"
+      class={{
+        "bg-base-200/50 rounded-box relative flex shrink-0 flex-col-reverse items-center sm:flex-row": true,
+        "text-accent-content": guess.win,
+      }}
     >
-      <p class="absolute top-0 left-0 m-4 text-5xl">
-        <span class="text-base-content/25 font-[BigNoodleTitling] italic"
-          >{guess.diff ? items.length - i : "Answer"}</span
-        >
-        {guess.win ? "" : ""}
-      </p>
-      <p class="mx-4 my-3 font-[BigNoodleTitling] text-2xl italic">{guess.name}</p>
-      <img
-        src="./flags/{guess.code}.png"
-        alt={guess.name}
-        class="bg-base-100/50 ml-auto aspect-[3/2] h-full"
-      />
-      {#if guess.diff}
-        <img
-          src={guess.diff}
-          alt="{guess.name} diff"
-          class="{$settings.diffDarkBg === 'true'
-            ? 'bg-[#1a1a1a]'
-            : 'bg-base-100/50'} ml-2 aspect-[3/2] h-full"
-        />
+      {#if guess.win}
+        <div
+          class="bg-accent absolute bottom-0 left-0 z-0 h-1/2 w-full rounded-[inherit] max-sm:mask-t-from-0% sm:h-full sm:w-1/2 sm:mask-r-from-0%"
+        ></div>
       {/if}
+      <p class="absolute top-0 left-0 z-30 m-4 max-sm:hidden">
+        <span class="text-base-content/25 font-title text-5xl">
+          {guess.diff ? items.length - i : "Answer"}
+        </span>
+      </p>
+      <div class="z-30 flex h-full w-full min-w-48 flex-1 items-end px-2.5 py-2 sm:px-3.5 sm:py-3">
+        <p class="font-title w-full text-2xl leading-none">
+          <span class="text-base-content/25 font-title mr-1 text-2xl leading-none sm:hidden">
+            {guess.diff ? items.length - i : "Answer"}
+          </span>
+          {guess.name}
+        </p>
+      </div>
+      <div class="z-30 grid grid-cols-2">
+        <img
+          src="./flags/{guess.code}.png"
+          alt={guess.name}
+          class="bg-base-100/50 ml-auto aspect-[3/2] h-full max-h-48"
+        />
+        {#if guess.diff}
+          <img
+            src={guess.diff}
+            alt="{guess.name} difference"
+            class={{
+              "z-30 aspect-[3/2] h-full max-h-48": true,
+              "bg-[#1a1a1a]": $settings.diffDarkBg === "true",
+              "bg-base-200": $settings.diffDarkBg !== "true",
+            }}
+          />
+        {/if}
+      </div>
     </div>
   {/each}
 </div>
