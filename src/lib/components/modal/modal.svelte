@@ -31,7 +31,7 @@
   <div class="modal-box p-4">
     <form method="dialog">
       <button class="btn btn-square btn-ghost absolute top-3 right-3 text-xl" aria-label="Close">
-        <LucideX></LucideX>
+        <LucideX />
       </button>
     </form>
     <div class="mx-1 flex flex-col gap-2">

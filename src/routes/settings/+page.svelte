@@ -43,7 +43,7 @@
       title="GitHub"
       class="text-lg"
     >
-      <BiGithub></BiGithub>
+      <BiGithub />
     </a>
     <a href="http://" target="_blank" rel="noopener noreferrer"> kennyhui.dev </a>
   </div>
