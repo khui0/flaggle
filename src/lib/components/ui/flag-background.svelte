@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { flags, getRandomFlag, type Flag } from "$lib/content";
+  import { getRandomFlag, type Flag } from "$lib/content";
   import { onMount } from "svelte";
 
   const ROWS = 10;
