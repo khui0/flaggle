@@ -3,17 +3,18 @@
   import "@fontsource-variable/rubik";
   import "../app.css";
 
-  import Navigation from "$lib/components/ui/navigation.svelte";
+  import { page } from "$app/state";
   import FlagBackground from "$lib/components/ui/flag-background.svelte";
   import MenuButton from "$lib/components/ui/menu-button.svelte";
+  import Navigation from "$lib/components/ui/navigation.svelte";
+  import { settings } from "$lib/settings.svelte";
+  import { fade, scale } from "svelte/transition";
   import LucideBookOpen from "~icons/lucide/book-open";
   import LucideCalendarDays from "~icons/lucide/calendar-days";
   import LucideFlag from "~icons/lucide/flag";
   import LucideSettings from "~icons/lucide/settings";
+  import LucideTrophy from "~icons/lucide/trophy";
   import LucideZap from "~icons/lucide/zap";
-  import { page } from "$app/state";
-  import { fade, scale } from "svelte/transition";
-  import { settings } from "$lib/settings.svelte";
 
   let { children } = $props();
 
@@ -55,7 +56,7 @@
         Flaggle
       </h1>
     </div>
-    <div class="grid w-full max-w-4xl grid-cols-2 gap-2 md:grid-cols-5">
+    <div class="grid w-full max-w-4xl grid-cols-2 gap-2 md:grid-cols-3">
       <MenuButton href="/daily" label="Daily">
         <LucideCalendarDays />
       </MenuButton>
@@ -67,6 +68,9 @@
       </MenuButton>
       <MenuButton href="/reference" label="Reference">
         <LucideBookOpen />
+      </MenuButton>
+      <MenuButton href="/stats" label="Stats">
+        <LucideTrophy />
       </MenuButton>
       <MenuButton href="/settings" label="Settings">
         <LucideSettings />

@@ -32,7 +32,7 @@
     aria-label={label}
     {href}
     {onclick}
-    class="font-title group btn btn-lg rounded-box relative p-10 shadow-lg max-md:last:col-span-2"
+    class="font-title group btn btn-lg rounded-box relative p-10 shadow-lg odd:max-md:last:col-span-2"
   >
     {@render content()}
   </a>
@@ -40,7 +40,7 @@
   <button
     aria-label={label}
     {onclick}
-    class="font-title group btn btn-lg rounded-box relative p-10 shadow-lg max-md:last:col-span-2"
+    class="font-title group btn btn-lg rounded-box relative p-10 shadow-lg odd:max-md:last:col-span-2"
   >
     {@render content()}
   </button>
