@@ -26,7 +26,7 @@
 
   onMount(() => {
     const previous = parseInt(window.localStorage.getItem("unfinished-flaggle-classic") || "");
-    target = previous ? flags[previous] : getRandomFlag(settings.current.identicalFlags === "true");
+    target = previous ? flags[previous] : getRandomFlag();
   });
 
   async function addGuess(flag: Flag) {

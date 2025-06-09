@@ -1,13 +1,11 @@
 <script lang="ts">
-  import data from "$lib/assets/flags/data.json";
   import Confirm from "$lib/components/modal/confirm.svelte";
   import GameContainer from "$lib/components/ui/game-container.svelte";
   import FlagInput from "$lib/components/widgets/flag-input.svelte";
   import LightningFeed from "$lib/components/widgets/lightning-feed.svelte";
   import Streak from "$lib/components/widgets/streak.svelte";
-  import type { Flag } from "$lib/content";
+  import { flags, getRandomFlag, type Flag } from "$lib/content";
   import { db } from "$lib/db";
-  import { settings } from "$lib/settings.svelte";
   import { lightningStreak } from "$lib/stats";
   import { onMount } from "svelte";
   import { fly } from "svelte/transition";
@@ -27,10 +25,8 @@
   let answer: string = "";
 
   onMount(() => {
-    const flags =
-      settings.current.identicalFlags === "true" ? data : data.filter((item) => !item.duplicate);
     const previous = parseInt(window.localStorage.getItem("unfinished-flaggle-lightning") || "");
-    target = previous ? flags[previous] : getRandomTarget();
+    target = previous ? flags[previous] : getRandomFlag();
     // Play again on enter
     document.addEventListener("keydown", (e) => {
       if (e.key === "Enter" && isGameOver) {
@@ -81,21 +77,8 @@
     return false;
   }
 
-  function getRandomTarget(): Flag {
-    const flags =
-      settings.current.identicalFlags === "true" ? data : data.filter((item) => !item.duplicate);
-    const max = flags.length;
-    let index;
-    do {
-      index = Math.floor(Math.random() * max);
-    } while (flags[index] === target);
-    // Store game state
-    window.localStorage.setItem("unfinished-flaggle-lightning", index.toString());
-    return flags[index];
-  }
-
   function playAgain() {
-    target = getRandomTarget();
+    target = getRandomFlag();
     items = [];
     isGameOver = false;
     answer = "";

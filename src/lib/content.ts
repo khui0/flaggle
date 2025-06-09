@@ -1,4 +1,5 @@
 import data from "$lib/assets/flags/data.json";
+import { settings } from "./settings.svelte";
 
 export interface Flag {
   code: string;
@@ -14,7 +15,8 @@ export const flags: Flag[] = data.sort((a, b) => {
   return 0;
 });
 
-export function getRandomFlag(allowDuplicates: boolean = false): Flag {
+export function getRandomFlag(): Flag {
+  const allowDuplicates = settings.current.allowDuplicates === "true";
   const filtered = allowDuplicates ? flags : flags.filter((flag) => !flag.duplicate);
   return filtered[Math.floor(Math.random() * filtered.length)];
 }
