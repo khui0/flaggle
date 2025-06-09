@@ -34,7 +34,19 @@
       Allow identical flags such as Norway, Bouvet Island, and Svalbard and Jan Mayen
     </SettingsField>
   </div>
-  <a href="https://github.com/khui0/flaggle" title="GitHub" class="self-center text-lg">
-    <BiGithub></BiGithub>
-  </a>
+  <div
+    class="flex flex-wrap items-center justify-center gap-5 self-center font-semibold [&>*]:opacity-50 [&>*]:transition-opacity [&>*]:hover:opacity-100"
+  >
+    <p>Flaggle {import.meta.env.PACKAGE_VERSION}</p>
+    <a
+      href="https://github.com/khui0/flaggle"
+      target="_blank"
+      rel="noopener noreferrer"
+      title="GitHub"
+      class="text-lg"
+    >
+      <BiGithub></BiGithub>
+    </a>
+    <a href="http://" target="_blank" rel="noopener noreferrer"> kennyhui.dev </a>
+  </div>
 </GameContainer>
