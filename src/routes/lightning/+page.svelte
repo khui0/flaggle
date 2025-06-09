@@ -1,10 +1,11 @@
 <script lang="ts">
+  import { browser } from "$app/environment";
   import Confirm from "$lib/components/modal/confirm.svelte";
   import GameContainer from "$lib/components/ui/game-container.svelte";
   import FlagInput from "$lib/components/widgets/flag-input.svelte";
   import LightningFeed from "$lib/components/widgets/lightning-feed.svelte";
   import Streak from "$lib/components/widgets/streak.svelte";
-  import { flags, getRandomFlag, type Flag } from "$lib/content";
+  import { getRandomFlag, type Flag } from "$lib/content";
   import { db } from "$lib/db";
   import { lightningStreak } from "$lib/stats";
   import { onMount } from "svelte";
@@ -18,42 +19,51 @@
     code?: string;
   }
 
-  // Game state
-  let target: Flag;
-  let items: Guess[] = [];
-  let isGameOver: boolean = false;
-  let answer: string = "";
+  interface GameState {
+    target: Flag | null;
+    guesses: Guess[];
+    isGameOver: boolean;
+  }
+
+  const defaultGameState: GameState = {
+    target: null,
+    guesses: [],
+    isGameOver: false,
+  };
+
+  const storedGameState: GameState =
+    browser && JSON.parse(localStorage.getItem("lightning-game-state") || "{}");
+
+  let gameState: GameState = $state(Object.assign({}, defaultGameState, storedGameState));
+
+  $effect(() => {
+    localStorage.setItem("lightning-game-state", JSON.stringify(gameState));
+  });
 
   onMount(() => {
-    const previous = parseInt(window.localStorage.getItem("unfinished-flaggle-lightning") || "");
-    target = previous ? flags[previous] : getRandomFlag();
-    // Play again on enter
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && isGameOver) {
-        e.preventDefault();
-        playAgain();
-      }
-    });
+    if (gameState.target === null) {
+      playAgain();
+    }
   });
 
   async function addGuess(flag: Flag) {
-    if (isGameOver) return;
+    if (gameState.isGameOver) return;
     const win = checkWin(flag);
     const guess: Guess = {
       win: win,
       name: flag.name,
       code: flag.code,
     };
-    items = [...items, guess];
-    if (items.length === 6) {
-      giveUp();
+    gameState.guesses = [...gameState.guesses, guess];
+    if (gameState.guesses.length === 6) {
+      gameState.isGameOver = true;
       return;
     }
     if (win) {
       // Record game as win
       db.lightning.add({
         win,
-        guesses: items.length,
+        guesses: gameState.guesses.length,
       });
       // Increment streak
       const currentStreak = (await db.stats.get("lightning-streak"))?.value || 0;
@@ -66,45 +76,51 @@
       // Remove unfinished game state
       window.localStorage.removeItem("unfinished-flaggle-lightning");
       // Mark game as over
-      isGameOver = true;
+      gameState.isGameOver = true;
     }
   }
 
   function checkWin(guess: Flag): boolean {
-    if (target.code === guess.code) {
+    if (gameState.target === null) return false;
+    if (gameState.target.code === guess.code) {
       return true;
     }
     return false;
   }
 
   function playAgain() {
-    target = getRandomFlag();
-    items = [];
-    isGameOver = false;
-    answer = "";
+    gameState = Object.assign({}, defaultGameState);
+    gameState.target = getRandomFlag();
   }
 
   function giveUp() {
-    // Display correct answer
-    answer = target.name;
+    if (gameState.target === null) return;
+    // Reset streak to 0
+    db.stats.put({ name: "lightning-streak", value: 0 });
     // Record game as loss
     db.lightning.add({
       win: false,
-      guesses: items.length,
+      guesses: gameState.guesses.length,
     });
-    // Reset streak to 0
-    db.stats.put({ name: "lightning-streak", value: 0 });
-    // Remove unfinished game state
-    window.localStorage.removeItem("unfinished-flaggle-lightning");
-    isGameOver = true;
+    // Update state
+    gameState.isGameOver = true;
   }
 </script>
 
+<svelte:document
+  onkeydown={(e) => {
+    if (e.key === "Enter" && gameState.isGameOver) {
+      e.preventDefault();
+      playAgain();
+    }
+  }}
+/>
+
 <GameContainer>
-  {#if target}
+  {#if gameState.target !== null}
     <div class="flex justify-center">
       <img
-        src="./flags/{target?.code}.png"
+        src="./flags/{gameState.target.code}.png"
         alt="Target flag"
         class="bg-base-100/50 pointer-events-none aspect-[3/2] w-1/2 max-w-sm"
       />
@@ -112,35 +128,32 @@
   {/if}
   <div class="flex gap-2">
     {#if $lightningStreak > 0}
-      <div class="flex items-center px-1 text-xl">
+      <div class="gameState.guesses-center flex px-1 text-xl">
         <Streak value={$lightningStreak}></Streak>
       </div>
     {/if}
-    {#if !isGameOver}
+    {#if !gameState.isGameOver}
       <div class="flex-1">
         <FlagInput onsubmit={addGuess}></FlagInput>
       </div>
     {:else}
-      <p in:fly={{ duration: 500, x: -50 }} class="font-[BigNoodleTitling] text-4xl italic">
-        {target.name}
+      <p in:fly={{ duration: 500, x: -50 }} class="font-title">
+        {gameState.target?.name}
       </p>
     {/if}
   </div>
-  {#if answer !== ""}
-    <p class="mx-auto">Answer: {answer}</p>
-  {/if}
-  <LightningFeed {items}></LightningFeed>
-  {#if !isGameOver}
+  <LightningFeed items={gameState.guesses}></LightningFeed>
+  {#if !gameState.isGameOver}
     <button
       class="btn font-title self-center text-2xl opacity-50 transition-opacity hover:opacity-100"
-      on:click={() => {
+      onclick={() => {
         confirm.prompt();
       }}
     >
       Give Up
     </button>
   {:else}
-    <button class="btn font-title self-center text-2xl" on:click={playAgain}> Play Again </button>
+    <button class="btn font-title self-center text-2xl" onclick={playAgain}> Play Again </button>
   {/if}
 </GameContainer>
 

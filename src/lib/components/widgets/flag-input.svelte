@@ -140,6 +140,7 @@
     onkeydown={(e) => {
       if (e.key === "Enter") {
         e.preventDefault();
+        e.stopPropagation();
         submitQuery();
       } else if (e.key === "Tab") {
         e.preventDefault();

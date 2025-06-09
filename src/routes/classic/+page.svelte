@@ -97,7 +97,12 @@
   function giveUp() {
     if (gameState.target === null) return;
     // Reset streak to 0
-    db.stats.put({ name: "streak", value: 0 });
+    db.stats.put({ name: "classic-streak", value: 0 });
+    // Record game as loss
+    db.classic.add({
+      win: false,
+      guesses: gameState.guesses.length,
+    });
     // Update state
     gameState.isGameOver = true;
     gameState.guesses = [gameState.target, ...gameState.guesses];
@@ -125,7 +130,7 @@
         {#if !gameState.isGameOver}
           <FlagInput onsubmit={addGuess}></FlagInput>
         {:else}
-          <p in:fly={{ duration: 500, x: -50 }} class="font-[BigNoodleTitling] text-4xl italic">
+          <p in:fly={{ duration: 500, x: -50 }} class="font-title">
             {gameState.target?.name}
           </p>
           <button class="btn font-title text-2xl" onclick={playAgain}> Play Again </button>
