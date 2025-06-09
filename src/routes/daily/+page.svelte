@@ -1,24 +1,17 @@
 <script lang="ts">
-  import FlagInput from "$lib/components/widgets/flag-input.svelte";
-  import ClassicFeed from "$lib/components/widgets/classic-feed.svelte";
-  import Modal from "$lib/components/modal/modal.svelte";
-
-  import { generateDiff } from "$lib/diff";
-  import { getDeltaDay } from "$lib/date";
-
   import data from "$lib/assets/flags/data.json";
-
-  import { onMount } from "svelte";
-  import pluralize from "pluralize";
-
-  import { db } from "$lib/db";
-
-  import { dailyStreak } from "$lib/stats";
-
-  import LucideShare from "~icons/lucide/share";
-  import { liveQuery } from "dexie";
-  import { sha256 } from "@oslojs/crypto/sha2";
+  import CopyButton from "$lib/components/ui/copy-button.svelte";
   import GameContainer from "$lib/components/ui/game-container.svelte";
+  import ClassicFeed from "$lib/components/widgets/classic-feed.svelte";
+  import FlagInput from "$lib/components/widgets/flag-input.svelte";
+  import { getDeltaDay } from "$lib/date";
+  import { db } from "$lib/db";
+  import { generateDiff } from "$lib/diff";
+  import { dailyStreak } from "$lib/stats";
+  import { sha256 } from "@oslojs/crypto/sha2";
+  import { liveQuery } from "dexie";
+  import pluralize from "pluralize";
+  import { onMount } from "svelte";
 
   interface Country {
     code: string;
@@ -41,15 +34,17 @@
   let ISODate: string;
 
   // Game state
-  let target: Country;
-  let items: Guess[] = [];
-  let isGameOver: boolean = false;
-
-  let guesses: number = 0;
-
-  let modal: Modal;
+  let target: Country | null = $state(null);
+  let items: Guess[] = $state([]);
+  let isGameOver: boolean = $state(false);
+  let guesses: number = $state(0);
+  let solved: boolean = $state(false);
 
   const daily = liveQuery(() => db.daily.get(ISODate));
+
+  let shareString = $derived(
+    `🏁 Flaggle #${dailyNumber} ${date} in ${pluralize("guess", $daily?.guesses || guesses, true)}! 👉 https://flaggle.kennyhui.dev/daily`,
+  );
 
   onMount(async () => {
     // Generate a random number by hashing date and using the first 3 characters as a hex number
@@ -76,11 +71,12 @@
 
   // Show results if today has already been played
   daily.subscribe((daily) => {
-    if (daily?.guesses) showResults();
+    if (daily?.guesses) solved = true;
   });
 
   async function addGuess(e: CustomEvent) {
     if (isGameOver) return;
+    if (target === null) return;
     const country: Country = e.detail;
     const diff = await generateDiff(country, target);
     const win = checkWin(country);
@@ -97,7 +93,7 @@
       const exists = (await db.daily.get(ISODate)) !== undefined;
       if (!exists) db.daily.put({ date: ISODate, guesses: items.length }, ISODate);
       // Show results modal
-      modal.show();
+      solved = true;
     }
     // Store guess history
     localStorage.setItem("daily-prev-guessed", JSON.stringify(items));
@@ -105,47 +101,33 @@
   }
 
   function checkWin(guess: Country): boolean {
-    if (target.code === guess.code) {
+    if (target?.code === guess.code) {
       isGameOver = true;
       return true;
     }
     return false;
   }
-
-  function copyResults() {
-    const resultString = `🏁 Flaggle #${dailyNumber} ${date} in ${pluralize("guess", $daily?.guesses || guesses, true)}! 👉 https://flaggle.kennyhui.dev/daily`;
-    navigator.clipboard.writeText(resultString);
-  }
-
-  function showResults() {
-    modal.show();
-  }
 </script>
 
-<GameContainer>
-  {#snippet title()}
-    Flaggle <span class="text-base-content/50">#{dailyNumber}</span>
-  {/snippet}
-  {#snippet header()}
-    {#if isGameOver || $daily?.guesses}
-      <button
-        class="btn self-center font-[BigNoodleTitling] text-2xl font-normal italic"
-        on:click={showResults}>Results</button
-      >
-    {:else}
-      <FlagInput on:submit={addGuess}></FlagInput>
-    {/if}
-  {/snippet}
-  <ClassicFeed {items}></ClassicFeed>
-</GameContainer>
-
-<Modal title="Results" bind:this={modal} centered>
-  <p>You solved today's <b>Flaggle #{dailyNumber}</b> in</p>
-  <p class="mb-2 font-[BigNoodleTitling] text-5xl italic">
-    {pluralize("guess", $daily?.guesses || guesses, true)}
-  </p>
-  <div class="flex gap-2">
-    <button class="btn" on:click={copyResults}><LucideShare></LucideShare> Share Results</button>
+{#if solved}
+  <div class="bg-base-100 absolute inset-0 flex flex-col items-center justify-center gap-4">
+    <p>You solved today's <b>Flaggle #{dailyNumber}</b> in</p>
+    <p class="mb-2 font-[BigNoodleTitling] text-5xl italic">
+      {pluralize("guess", $daily?.guesses || guesses, true)}
+    </p>
+    <p>You now have a <b>{$dailyStreak} day</b> streak!</p>
+    <CopyButton content={shareString}>Copy Results</CopyButton>
   </div>
-  <p>You now have a <b>{$dailyStreak} day</b> streak!</p>
-</Modal>
+{:else}
+  <GameContainer>
+    {#snippet title()}
+      Flaggle <span class="text-base-content/50">#{dailyNumber}</span>
+    {/snippet}
+    {#snippet header()}
+      {#if !(isGameOver || $daily?.guesses)}
+        <FlagInput on:submit={addGuess}></FlagInput>
+      {/if}
+    {/snippet}
+    <ClassicFeed {items}></ClassicFeed>
+  </GameContainer>
+{/if}
