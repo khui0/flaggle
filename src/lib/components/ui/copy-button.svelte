@@ -7,7 +7,7 @@
     content,
     children,
   }: {
-    class: string;
+    class?: string;
     content: string;
     children?: Snippet;
   } = $props();
