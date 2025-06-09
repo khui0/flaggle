@@ -7,17 +7,10 @@
   import StatsItem from "./stats-item.svelte";
   import LucideTimer from "~icons/lucide/timer";
   import { classicStats, dailyStats, lightningStats, playTime } from "$lib/stats";
+  import { minutesToString } from "$lib/date";
 
   function initBaseObject<T extends Record<string, any>>(obj: T): Record<keyof T, number> {
     return Object.fromEntries(Object.keys(obj).map((key) => [key, 0])) as Record<keyof T, number>;
-  }
-
-  function minutesToString(minutes: number) {
-    if (minutes >= 120) {
-      const hours = (minutes / 60).toFixed(1);
-      return hours + " hours";
-    }
-    return minutes + " " + (minutes === 1 ? "minute" : "minutes");
   }
 
   let playTimeCalculated = $state(initBaseObject(playTime));

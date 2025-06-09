@@ -5,6 +5,11 @@
   import SettingsFieldContainer from "./settings-field-container.svelte";
   import SettingsField from "./settings-field.svelte";
   import ThemeSelector from "./theme-selector.svelte";
+  import ExportSaveModal from "./export-save-modal.svelte";
+  import ImportSaveModal from "./import-save-modal.svelte";
+
+  let exportSaveModal: ExportSaveModal | null = $state(null);
+  let importSaveModal: ImportSaveModal | null = $state(null);
 </script>
 
 <GameContainer>
@@ -39,8 +44,8 @@
         Save a copy of your statistics (settings and game state will not be preserved)
       {/snippet}
       <div class="flex items-center gap-1">
-        <button class="btn-sm btn h-auto">Export Stats </button>
-        <button class="btn-sm btn h-auto">Import Stats</button>
+        <button class="btn-sm btn h-auto" onclick={exportSaveModal?.show}>Export</button>
+        <button class="btn-sm btn h-auto" onclick={importSaveModal?.show}>Import</button>
       </div>
     </SettingsFieldContainer>
   </div>
@@ -65,3 +70,6 @@
     </a>
   </div>
 </GameContainer>
+
+<ExportSaveModal bind:this={exportSaveModal} />
+<ImportSaveModal bind:this={importSaveModal} />

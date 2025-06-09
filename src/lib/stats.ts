@@ -89,15 +89,11 @@ export async function serializeSave(): Promise<string> {
 
 export function deserializeSave(save: string) {
   const prefix = "FLAGGLE_";
-  if (!save.startsWith(prefix)) {
-    console.error("May not be a Flaggle save");
-    return;
-  }
+  if (!save.startsWith(prefix)) throw new Error("bad structure");
+
   save = save.substring(prefix.length);
 
   const sections = atob(save).split("|");
-
-  console.log(`Parsed save version: ${sections[0]}`);
 
   const playTimeParts = sections[1].split(",").map((s) => parseInt(s));
   const playTime = {
@@ -123,6 +119,7 @@ export function deserializeSave(save: string) {
   };
 
   return {
+    version: sections[0],
     playTime,
     classic,
     lightning,

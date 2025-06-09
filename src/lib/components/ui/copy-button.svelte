@@ -3,9 +3,11 @@
   import { fade } from "svelte/transition";
 
   let {
+    class: classList,
     content,
     children,
   }: {
+    class: string;
     content: string;
     children?: Snippet;
   } = $props();
@@ -24,7 +26,7 @@
   }
 </script>
 
-<button class="btn relative overflow-hidden" {onclick}>
+<button class="btn relative overflow-hidden {classList}" {onclick}>
   {@render children?.()}
   {#if showCopied}
     <div in:fade out:fade class="bg-base-200 absolute inset-0 flex items-center justify-center">

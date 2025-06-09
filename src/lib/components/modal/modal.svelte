@@ -27,7 +27,7 @@
   };
 </script>
 
-<dialog class="modal backdrop:bg-transparent" bind:this={modal} {onclose}>
+<dialog class="modal open:bg-black/10" bind:this={modal} {onclose}>
   <div class="modal-box p-4">
     <form method="dialog">
       <button class="btn btn-square btn-ghost absolute top-3 right-3 text-xl" aria-label="Close">
@@ -39,7 +39,7 @@
       {@render children()}
     </div>
   </div>
-  <form method="dialog" class="modal-backdrop bg-black/20">
+  <form method="dialog" class="modal-backdrop">
     <button>close</button>
   </form>
 </dialog>
