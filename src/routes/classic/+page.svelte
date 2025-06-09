@@ -8,7 +8,7 @@
   import { getRandomFlag, type Flag } from "$lib/content";
   import { db } from "$lib/db";
   import { generateDiff } from "$lib/diff";
-  import { streak } from "$lib/stats";
+  import { classicStats } from "$lib/stats";
   import { onMount } from "svelte";
   import { fly } from "svelte/transition";
 
@@ -46,6 +46,9 @@
     }
   });
 
+  const streak = classicStats.streak;
+  const maxStreak = classicStats.maxStreak;
+
   async function addGuess(flag: Flag) {
     if (gameState.target === null) return;
     if (gameState.isGameOver) return;
@@ -67,16 +70,11 @@
         guesses: gameState.guesses.length,
       });
       // Increment streak
-      const currentStreak = (await db.stats.get("streak"))?.value || 0;
-      const maxStreak = (await db.stats.get("max-streak"))?.value || 0;
-      db.stats.put({ name: "streak", value: currentStreak + 1 });
-      if (currentStreak + 1 > maxStreak) {
-        // Record current streak as max streak
-        db.stats.put({ name: "max-streak", value: currentStreak + 1 });
+      db.stats.put({ name: "classic-streak", value: $streak + 1 });
+      if ($streak > $maxStreak) {
+        db.stats.put({ name: "classic-max-streak", value: $streak });
       }
-      // Remove unfinished game state
-      window.localStorage.removeItem("unfinished-flaggle-classic");
-      // Mark game as over
+      // Update state
       gameState.isGameOver = true;
     }
   }
