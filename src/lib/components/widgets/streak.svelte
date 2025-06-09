@@ -1,6 +1,7 @@
 <script lang="ts">
   import sound from "$lib/assets/sounds/hit.mp3";
   import { Howl } from "howler";
+  import { onMount } from "svelte";
 
   let {
     value = 0,
@@ -22,6 +23,10 @@
   colors.set(250, "green");
   colors.set(500, "yellow");
   colors.set(1000, "rainbow");
+
+  if (!colors.has(value)) {
+    ready = true;
+  }
 
   $effect(() => {
     if (!ready) {
@@ -57,7 +62,7 @@
 {#if show}
   <div class="pointer-events-none fixed inset-0 z-50 flex items-center justify-center">
     <p class="big flex gap-[0.25em] text-8xl whitespace-nowrap {colorClassName}">
-      <span class="font-title">{value.toLocaleString()} </span>
+      <span class="font-title text-8xl">{value.toLocaleString()} </span>
       <span class="font-[Icons]" aria-hidden="true">A</span>
     </p>
   </div>
