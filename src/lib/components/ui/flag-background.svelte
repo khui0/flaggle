@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getRandomFlag, type Flag } from "$lib/content";
+  import { fetchImageURL, getRandomFlag, type Flag } from "$lib/content";
   import { onMount } from "svelte";
 
   const ROWS = 10;
@@ -60,11 +60,13 @@
     {#each queue as row}
       <div class="slide flex" style="--width: {flagWidth * maxCount};">
         {#each row.slice(0, maxCount) as flag}
-          <img
-            src="./flags/{flag.code}.png"
-            alt={flag.name}
-            style="height: {flagHeight}px; width: {flagWidth}px;"
-          />
+          {#await fetchImageURL(flag.code) then image}
+            <img
+              src={image}
+              alt={flag.name}
+              style="height: {flagHeight}px; width: {flagWidth}px;"
+            />
+          {/await}
         {/each}
         {#each row.slice(0, maxCount) as flag}
           <img
