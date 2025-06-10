@@ -9,14 +9,11 @@
   {/snippet}
   <div class="text-center">
     <p class="text-base-content/50">Aspect ratios may be inaccurate</p>
-    <a href="https://flagpedia.net/index" target="_blank" rel="noopener noreferrer" class="link">
-      Source (Flagpedia.net)
-    </a>
   </div>
   <div class="grid grid-cols-2 gap-5 sm:grid-cols-3">
     {#each flags as flag}
       <a
-        class="group bg-base-200 rounded-b-field flex flex-col shadow-md"
+        class="group bg-base-200 rounded-b-field flex flex-col"
         href="https://flagpedia.net/{flag.code}"
         target="_blank"
         rel="noopener noreferrer"
