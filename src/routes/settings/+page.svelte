@@ -1,15 +1,27 @@
 <script lang="ts">
+  import { browser } from "$app/environment";
   import GameContainer from "$lib/components/ui/game-container.svelte";
+  import { db } from "$lib/db";
   import { settings } from "$lib/settings.svelte";
   import BiGithub from "~icons/bi/github";
+  import ExportSaveModal from "./export-save-modal.svelte";
+  import ImportSaveModal from "./import-save-modal.svelte";
   import SettingsFieldContainer from "./settings-field-container.svelte";
   import SettingsField from "./settings-field.svelte";
   import ThemeSelector from "./theme-selector.svelte";
-  import ExportSaveModal from "./export-save-modal.svelte";
-  import ImportSaveModal from "./import-save-modal.svelte";
 
   let exportSaveModal: ExportSaveModal | null = $state(null);
   let importSaveModal: ImportSaveModal | null = $state(null);
+
+  function bytesToHumanReadable(bytes: number) {
+    const mib = bytes / 1024 / 1024;
+    const gib = mib / 1024;
+
+    if (gib >= 1) {
+      return gib.toFixed(2) + " GiB";
+    }
+    return mib.toFixed(2) + " MiB";
+  }
 </script>
 
 <GameContainer>
@@ -26,7 +38,7 @@
       {/snippet}
       <ThemeSelector />
     </SettingsFieldContainer>
-    <SettingsField type="toggle" title="Dark Background" bind:value={settings.current.diffDarkBg}>
+    <SettingsField type="toggle" title="Dark background" bind:value={settings.current.diffDarkBg}>
       Use a dark background behind the flag similarity regardless of theme
     </SettingsField>
     <SettingsField
@@ -46,6 +58,30 @@
       <div class="flex items-center gap-1">
         <button class="btn-sm btn h-auto" onclick={exportSaveModal?.show}>Export</button>
         <button class="btn-sm btn h-auto" onclick={importSaveModal?.show}>Import</button>
+      </div>
+    </SettingsFieldContainer>
+    <SettingsFieldContainer>
+      {#snippet title()}
+        Delete downloaded assets
+      {/snippet}
+      {#snippet description()}
+        {#if browser}
+          {#await navigator.storage.estimate() then estimate}
+            {bytesToHumanReadable(estimate.usage || 0)} of {bytesToHumanReadable(
+              estimate.quota || 0,
+            )} used
+          {/await}
+        {/if}
+      {/snippet}
+      <div class="flex items-center gap-1">
+        <button
+          class="btn-sm btn h-auto"
+          onclick={async () => {
+            await db.assets.clear();
+          }}
+        >
+          Delete
+        </button>
       </div>
     </SettingsFieldContainer>
   </div>
