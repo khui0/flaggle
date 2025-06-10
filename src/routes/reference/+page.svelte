@@ -1,6 +1,6 @@
 <script lang="ts">
   import GameContainer from "$lib/components/ui/game-container.svelte";
-  import { flags } from "$lib/content";
+  import { fetchImageURL, flags } from "$lib/content";
 </script>
 
 <GameContainer>
@@ -21,11 +21,9 @@
         target="_blank"
         rel="noopener noreferrer"
       >
-        <img
-          src="./flags/{flag.code}.png"
-          alt={flag.name}
-          class="bg-base-100/50 ml-auto aspect-[3/2]"
-        />
+        {#await fetchImageURL(flag.code) then image}
+          <img src={image} alt={flag.name} class="bg-base-100/50 ml-auto aspect-[3/2]" />
+        {/await}
         <p class="group-hover:text-accent font-title px-2 py-1 text-2xl transition-colors">
           {flag.name}
         </p>
