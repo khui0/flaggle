@@ -14,7 +14,7 @@
   import { liveQuery } from "dexie";
   import pluralize from "pluralize";
   import { onMount } from "svelte";
-  import { fade } from "svelte/transition";
+  import { fade, fly } from "svelte/transition";
 
   interface Guess extends Flag {
     diff?: string;
@@ -119,15 +119,17 @@
 </GameContainer>
 
 {#if solved}
-  <div
-    in:fade={{ delay: 1000 }}
-    class="bg-base-100 absolute inset-0 flex flex-col items-center justify-center gap-4"
-  >
-    <p>You solved today's <b>Flaggle #{dailyFlaggleNumber}</b> in</p>
-    <p class="font-title mb-2 text-5xl">
-      {pluralize("guess", $previous?.guesses || gameState.guesses.length, true)}
-    </p>
-    <p>You now have a <b>{$streak} day</b> streak!</p>
-    <CopyButton content={shareString}>Copy Results</CopyButton>
+  <div in:fade={{ delay: 1000 }} class="bg-base-100 absolute inset-0">
+    <div
+      in:fly={{ delay: 1000, y: 50 }}
+      class="absolute top-1/2 left-1/2 flex -translate-1/2 flex-col items-center justify-center gap-4 [&>*]:shrink-0"
+    >
+      <p>You solved today's <b>Flaggle #{dailyFlaggleNumber}</b> in</p>
+      <p class="font-title mb-2 text-5xl">
+        {pluralize("guess", $previous?.guesses || gameState.guesses.length, true)}
+      </p>
+      <p>You now have a <b>{$streak} day</b> streak!</p>
+      <CopyButton content={shareString}>Copy Results</CopyButton>
+    </div>
   </div>
 {/if}

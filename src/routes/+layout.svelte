@@ -64,10 +64,10 @@
     <div class="flex items-center gap-3 md:gap-5">
       <enhanced:img
         src="$lib/assets/branding/flaggle.svg"
-        class="h-13 w-auto drop-shadow-lg md:h-19"
+        class="h-15 w-auto drop-shadow-lg md:h-19"
         alt="Flaggle icon"
       />
-      <h1 class="font-title text-6xl leading-none text-white text-shadow-lg md:text-8xl">
+      <h1 class="font-title text-7xl leading-none text-white text-shadow-lg md:text-8xl">
         Flaggle
       </h1>
     </div>
