@@ -43,7 +43,7 @@
   <title>Flaggle</title>
   <meta
     name="description"
-    content="Flag guessing game inspired by Wordle. Test your knowledge of countries and flags!"
+    content="Test your flag identification skills with Flaggle! Guess the daily flag or explore other challenging game modes. Free to play, no login required."
   />
 </svelte:head>
 
