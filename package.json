@@ -45,6 +45,7 @@
     "@fontsource-variable/rubik": "^5.2.6",
     "@open-draft/deferred-promise": "^2.2.0",
     "@oslojs/crypto": "^1.0.1",
+    "@vercel/analytics": "^1.5.0",
     "dayjs": "^1.11.13",
     "dexie": "^4.0.11",
     "fuse.js": "^7.1.0",
