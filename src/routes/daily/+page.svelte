@@ -58,12 +58,11 @@
   });
 
   onMount(async () => {
-    gameState.target = getDailyTarget();
-
     // Reset state if it's for a different date
     if (gameState.date !== dailyFlaggleDate) {
       gameState = Object.assign({}, defaultGameState);
     }
+    gameState.target = getDailyTarget();
   });
 
   function getDailyTarget(): Flag {
@@ -119,7 +118,7 @@
 </GameContainer>
 
 {#if solved}
-  <div in:fade={{ delay: 1000 }} class="bg-base-100 absolute inset-0">
+  <div in:fade={{ delay: 1000 }} class="bg-base-100 absolute inset-0 text-center">
     <div
       in:fly={{ delay: 1000, y: 50 }}
       class="absolute top-1/2 left-1/2 flex -translate-1/2 flex-col items-center justify-center gap-4 [&>*]:shrink-0"
