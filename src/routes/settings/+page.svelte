@@ -3,7 +3,6 @@
   import GameContainer from "$lib/components/ui/game-container.svelte";
   import { db } from "$lib/db";
   import { settings } from "$lib/settings.svelte";
-  import BiGithub from "~icons/bi/github";
   import ExportSaveModal from "./export-save-modal.svelte";
   import ImportSaveModal from "./import-save-modal.svelte";
   import SettingsFieldContainer from "./settings-field-container.svelte";
@@ -86,19 +85,12 @@
     </SettingsFieldContainer>
   </div>
   <div
-    class="flex max-w-md flex-wrap items-center justify-center gap-5 self-center text-center font-semibold [&>*]:opacity-50 [&>*]:transition-opacity [&>*]:hover:opacity-100"
+    class="flex max-w-md flex-wrap items-center justify-center gap-x-5 self-center text-center text-sm [&>*]:opacity-50 [&>*]:transition-opacity [&>*]:hover:opacity-100"
   >
     <p>&copy; 2025 Kenny Hui</p>
     <p>Flaggle {import.meta.env.PACKAGE_VERSION}</p>
     <a href="https://kennyhui.dev" target="_blank" rel="noopener noreferrer">kennyhui.dev</a>
-    <a
-      href="https://github.com/khui0/flaggle"
-      target="_blank"
-      rel="noopener noreferrer"
-      title="GitHub"
-      class="inline-flex items-center gap-1.5"
-    >
-      <BiGithub />
+    <a href="https://github.com/khui0/flaggle" target="_blank" rel="noopener noreferrer">
       Source
     </a>
     <a href="https://flagpedia.net/index" target="_blank" rel="noopener noreferrer">
