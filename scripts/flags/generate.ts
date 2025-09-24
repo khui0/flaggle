@@ -14,6 +14,7 @@ interface DataJSONItem {
   code: string;
   name: string;
   duplicate?: boolean;
+  us?: boolean;
 }
 const data: DataJSONItem[] = [];
 
@@ -32,13 +33,16 @@ async function process() {
 
   const codes: Record<string, string> = JSON.parse(await fs.readFile(CODES_PATH, "utf-8"));
   Object.entries(codes).forEach(async ([code, name]) => {
-    await generateFlag(code);
+    generateFlag(code);
     const item: DataJSONItem = {
       code,
       name,
     };
     if (DUPLICATES.includes(code)) {
       item.duplicate = true;
+    }
+    if (code.startsWith("us-")) {
+      item.us = true;
     }
     data.push(item);
   });
