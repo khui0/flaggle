@@ -5,7 +5,17 @@ import path from "node:path";
 const HEIGHT: number = 240;
 const RATIO: number = 3 / 2;
 const BASE_DIR = "src/lib/flags";
+const TARGET_DIR = "static/flags";
 const CODES_PATH = path.join(BASE_DIR, "codes.json");
+
+const DUPLICATES = ["bv", "hm", "mf", "sj", "um"];
+
+interface DataJSONItem {
+  code: string;
+  name: string;
+  duplicate?: boolean;
+}
+const data: DataJSONItem[] = [];
 
 async function fetchCodes() {
   await fs.access(CODES_PATH).catch(async () => {
@@ -21,21 +31,33 @@ async function process() {
   console.log("Generating flags...");
 
   const codes: Record<string, string> = JSON.parse(await fs.readFile(CODES_PATH, "utf-8"));
-  Object.keys(codes).forEach((code) => {
-    generateFlag(code);
+  Object.entries(codes).forEach(async ([code, name]) => {
+    await generateFlag(code);
+    const item: DataJSONItem = {
+      code,
+      name,
+    };
+    if (DUPLICATES.includes(code)) {
+      item.duplicate = true;
+    }
+    data.push(item);
   });
 }
 
 async function generateFlag(code: string) {
   const data = await fetch(`https://flagcdn.com/${code}.svg`);
   const arrayBuffer = await data.arrayBuffer();
-  const targetPath = path.join(BASE_DIR, "png", `${code}.png`);
+  const targetPath = path.join(TARGET_DIR, `${code}.png`);
   await sharp(Buffer.from(arrayBuffer))
     .resize(HEIGHT * RATIO, HEIGHT, { fit: "fill" })
     .toFile(targetPath);
   console.log(`Created ${targetPath}`);
 }
 
-await fs.mkdir(path.join(BASE_DIR, "png"), { recursive: true });
+await fs.mkdir(BASE_DIR, { recursive: true });
+await fs.mkdir(TARGET_DIR, { recursive: true });
 await fetchCodes();
 await process();
+
+console.log("Writing data.json...");
+await fs.writeFile(path.join(BASE_DIR, "data.json"), JSON.stringify(data, null, 2));

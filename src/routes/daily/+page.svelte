@@ -1,6 +1,6 @@
 <script lang="ts">
   import { browser } from "$app/environment";
-  import data from "$lib/assets/flags/data.json";
+  import data from "$lib/flags/data.json";
   import CopyButton from "$lib/components/ui/copy-button.svelte";
   import GameContainer from "$lib/components/ui/game-container.svelte";
   import ClassicFeed from "$lib/components/widgets/classic-feed.svelte";

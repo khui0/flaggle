@@ -1,4 +1,4 @@
-import data from "$lib/assets/flags/data.json";
+import data from "$lib/flags/data.json";
 import { db } from "./db";
 import { settings } from "./settings.svelte";
 
