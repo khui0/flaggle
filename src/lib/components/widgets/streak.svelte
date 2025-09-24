@@ -51,7 +51,7 @@
   function triggerBigStreak() {
     show = true;
     clearTimeout(timeout);
-    timeout = setTimeout(() => {
+    timeout = window.setTimeout(() => {
       show = false;
     }, 2000);
     audio.stop();
