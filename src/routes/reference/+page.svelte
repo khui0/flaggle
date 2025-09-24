@@ -11,7 +11,7 @@
     <p class="text-base-content/50">Aspect ratios may be inaccurate</p>
   </div>
   <div class="grid grid-cols-2 gap-5 sm:grid-cols-3">
-    {#each flags as flag}
+    {#each flags.filter((flag) => !flag.us) as flag}
       <a
         class="group bg-base-200 rounded-b-field flex flex-col"
         href="https://flagpedia.net/{flag.code}"

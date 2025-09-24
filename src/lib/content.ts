@@ -6,6 +6,7 @@ export interface Flag {
   code: string;
   name: string;
   duplicate?: boolean;
+  us?: boolean;
 }
 
 export const flags: Flag[] = data.sort((a, b) => {
@@ -18,7 +19,9 @@ export const flags: Flag[] = data.sort((a, b) => {
 
 export function getRandomFlag(): Flag {
   const allowDuplicates = settings.current.allowDuplicates === "true";
-  const filtered = allowDuplicates ? flags : flags.filter((flag) => !flag.duplicate);
+  const filtered = (allowDuplicates ? flags : flags.filter((flag) => !flag.duplicate)).filter(
+    (flag) => !flag.us,
+  );
   return filtered[Math.floor(Math.random() * filtered.length)];
 }
 

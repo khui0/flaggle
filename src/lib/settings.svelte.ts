@@ -9,7 +9,7 @@ const storedSettings: Settings = browser
 const defaultValues = { theme: "auto" };
 
 // Initialize settings with default values
-export let settings: { current: Settings } = $state({
+export const settings: { current: Settings } = $state({
   current: Object.assign({}, defaultValues, storedSettings),
 });
 
