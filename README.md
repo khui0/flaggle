@@ -54,11 +54,9 @@ View your stats by clicking on the stats button.
 
 Flag SVGs, country names, and ISO codes are obtained from [flagpedia.net](https://flagpedia.net/).
 
-Images are processed using [khui0/flaggle-flag-generator](https://github.com/khui0/flaggle-flag-generator)
-
 ## Development
 
-Install dependencies
+Install dependencies. This will also download and convert all world flags from [flagpedia.net](https://flagpedia.net/).
 
 ```bash
 npm i
