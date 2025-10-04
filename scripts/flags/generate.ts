@@ -33,18 +33,20 @@ async function process() {
 
   const codes: Record<string, string> = JSON.parse(await fs.readFile(CODES_PATH, "utf-8"));
   Object.entries(codes).forEach(async ([code, name]) => {
-    generateFlag(code);
-    const item: DataJSONItem = {
-      code,
-      name,
-    };
-    if (DUPLICATES.includes(code)) {
-      item.duplicate = true;
+    if (!code.startsWith("us-")) {
+      generateFlag(code);
+      const item: DataJSONItem = {
+        code,
+        name,
+      };
+      if (DUPLICATES.includes(code)) {
+        item.duplicate = true;
+      }
+      if (code.startsWith("us-")) {
+        item.us = true;
+      }
+      data.push(item);
     }
-    if (code.startsWith("us-")) {
-      item.us = true;
-    }
-    data.push(item);
   });
 }
 
